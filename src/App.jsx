@@ -1,6 +1,10 @@
 import {ColorModeContext, useMode} from "./theme.js";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import Topbar from "./scenes/global/Topbar.jsx";
+import {Routes, Route} from "react-router-dom";
+import Playlists from "./scenes/playlists/index.jsx";
+import Stats from "./scenes/stats/index.jsx";
+import Sidebar from "./scenes/global/Sidebar.jsx";
 
 
 function App() {
@@ -12,8 +16,14 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <div className={'app'}>
+                    <Sidebar />
                     <main className={'content'}>
                         <Topbar/>
+                        <Routes>
+                            <Route path='/playlists' element={<Playlists/>} />
+                            <Route path='/stats' element={<Stats/>} />
+                        </Routes>
+
                     </main>
                 </div>
             </ThemeProvider>
