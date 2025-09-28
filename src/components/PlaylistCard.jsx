@@ -7,6 +7,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import {formatDuration} from "../utils/formatters.js";
 import {Box, useTheme} from "@mui/material";
 import {tokens} from "../theme.js";
+import { Link } from 'react-router-dom';
 
 export default function PlaylistCard({playlist}) {
     const theme = useTheme();
@@ -17,12 +18,12 @@ export default function PlaylistCard({playlist}) {
         <Card sx={{height: "100%"}}>
             <Box backgroundColor={colors.primary[400]}>
 
-                <CardActionArea>
+                <CardActionArea component={Link} to={`/playlists/${playlist.id}`}>
                     <CardMedia
                         component="img"
                         height="140"
                         src={playlist.cover_url}
-                        alt="green iguana"
+                        alt={playlist.title}
                     />
                     <CardContent>
                         <Typography
@@ -53,8 +54,13 @@ export default function PlaylistCard({playlist}) {
                         <Typography
                             variant="subtitle2"
                             component="div"
-                            sx={{color: 'text.secondary'}}
-                            color={colors.greenAccent[400]}
+                            sx={{
+                                overflow: "hidden",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 1,
+                                WebkitBoxOrient: "vertical",
+                                color: 'text.secondary'
+                            }}
                         >
                             Songs number: {playlist.length} {playlist.length ? '('+formatDuration(playlist.duration)+')' : ''}
                         </Typography>
