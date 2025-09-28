@@ -56,7 +56,7 @@ export default function PlaylistCard({playlist}) {
                             sx={{color: 'text.secondary'}}
                             color={colors.greenAccent[400]}
                         >
-                            Songs number: {playlist.length} ({formatDuration(playlist.duration)})
+                            Songs number: {playlist.length} {playlist.length ? '('+formatDuration(playlist.duration)+')' : ''}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
