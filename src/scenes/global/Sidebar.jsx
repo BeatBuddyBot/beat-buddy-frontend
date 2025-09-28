@@ -6,7 +6,6 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
-
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -31,7 +30,7 @@ const Sidebar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selected, setSelected] = useState("Dashboard");
+    const [selected, setSelected] = useState("Playlists");
 
     return (
         <Box
@@ -46,10 +45,10 @@ const Sidebar = () => {
                     padding: "5px 35px 5px 20px !important",
                 },
                 "& .pro-inner-item:hover": {
-                    color: "#868dfb !important",
+                    color: "#70d8bd !important",
                 },
                 "& .pro-menu-item.active": {
-                    color: "#6870fa !important",
+                    color: "#4cceac !important",
                 },
             }}
         >
