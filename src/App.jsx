@@ -10,15 +10,19 @@ import Sidebar from "./scenes/global/Sidebar.jsx";
 function App() {
     const [theme, colorMode] = useMode();
 
-
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
-                <CssBaseline/>
-                <div className={'app'}>
-                    <Sidebar />
-                    <main className={'content'}>
-                        <Topbar/>
+                <CssBaseline />
+                <div className="app">
+                    <Sidebar
+                        style={{
+                            height: '100vh',
+                            position: 'fixed',
+                        }}
+                    />
+                    <main className="content">
+                        <Topbar />
                         <Routes>
                             <Route path='/playlists' element={<Playlists/>} />
                             <Route path='/stats' element={<Stats/>} />
