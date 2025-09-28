@@ -5,24 +5,35 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import {formatDuration} from "../utils/formatters.js";
-import {Box, useTheme} from "@mui/material";
+import {Box, Fab, useTheme} from "@mui/material";
 import {tokens} from "../theme.js";
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 export default function PlaylistCard({playlist}) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
+    const fabStyle = {
+        position: 'absolute',
+        top: 8,
+        right: 8,
+        zIndex: 1
+    };
+
     return (
+        <Card sx={{height: "100%", position: 'relative'}}>
+            {/* FAB в верхнем правом углу */}
+            <Fab size="small" color="primary" sx={fabStyle} aria-label="like">
+                <FavoriteBorderOutlinedIcon />
+            </Fab>
 
-        <Card sx={{height: "100%"}}>
             <Box backgroundColor={colors.primary[400]}>
-
                 <CardActionArea>
                     <CardMedia
                         component="img"
                         height="140"
                         src={playlist.cover_url}
-                        alt="green iguana"
+                        alt={playlist.title}
                     />
                     <CardContent>
                         <Typography
@@ -62,6 +73,5 @@ export default function PlaylistCard({playlist}) {
                 </CardActionArea>
             </Box>
         </Card>
-
     );
 }
