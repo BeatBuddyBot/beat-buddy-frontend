@@ -45,10 +45,10 @@ const Sidebar = () => {
                     padding: "5px 35px 5px 20px !important",
                 },
                 "& .pro-inner-item:hover": {
-                    color: "#70d8bd !important",
+                    color: `${colors.greenAccent[400]} !important`,
                 },
                 "& .pro-menu-item.active": {
-                    color: "#4cceac !important",
+                    color: `${colors.greenAccent[500]} !important`,
                 },
             }}
         >

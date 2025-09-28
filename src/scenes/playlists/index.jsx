@@ -13,8 +13,16 @@ const Playlists = () => {
     const [playlists, setPlaylists] = useState([]);
 
     useEffect(() => {
-        ApiService.getPlaylists()
-            .then(data => setPlaylists(data))
+        ApiService
+            .getPlaylists()
+            .then((data) => {
+
+                // TODO: delete
+                // Temporary sorting
+                data = data.sort((a, b) => b.duration - a.duration);
+
+                setPlaylists(data);
+            });
     }, []);
 
     return (
@@ -25,7 +33,7 @@ const Playlists = () => {
                     <Button
                         sx={{
                             backgroundColor: colors.primary[400],
-                            color: colors.grey[100],
+                            color: colors.greenAccent[400],
                             fontWeight: "bold",
                         }}
                     >
