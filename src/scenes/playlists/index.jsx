@@ -24,7 +24,7 @@ const Playlists = () => {
                 <Box>
                     <Button
                         sx={{
-                            backgroundColor: colors.blueAccent[700],
+                            backgroundColor: colors.primary[400],
                             color: colors.grey[100],
                             fontWeight: "bold",
                         }}
