@@ -7,6 +7,8 @@ export const myDarkTheme = themeQuartz
         browserColorScheme: "dark",
         foregroundColor: "#FFFFFF",
         headerFontSize: 14,
+        headerTextColor: "#70D8BD",
+
     });
 
 export const myLightTheme = themeQuartz
@@ -16,4 +18,6 @@ export const myLightTheme = themeQuartz
         browserColorScheme: "light",
         foregroundColor: "#1F2A40",
         headerFontSize: 14,
+        headerTextColor: "#70D8BD",
+
     });

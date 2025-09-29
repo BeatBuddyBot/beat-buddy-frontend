@@ -42,7 +42,7 @@ const SongsTable = ({initialSongs}) => {
             colId: "to_delete",
             headerName: "Remove",
             cellRenderer: (params) => (
-                <Button color="error" size="small" onClick={() => handleRemoveSong(params)}>
+                <Button color="inherit" size="small" onClick={() => handleRemoveSong(params)}>
                     <ClearOutlinedIcon/>
                 </Button>
             ),
