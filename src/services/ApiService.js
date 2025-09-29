@@ -20,4 +20,6 @@ class ApiService {
         this.client.delete(`/songs/${id}/`).then(res => res.data);
 }
 
-export default new ApiService("http://65.21.189.102:8000");
+export default new ApiService(
+    import.meta.env.VITE_BASE_URL
+);

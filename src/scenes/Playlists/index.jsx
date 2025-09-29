@@ -16,11 +16,6 @@ const Playlists = () => {
         ApiService
             .getPlaylists()
             .then((data) => {
-
-                // TODO: delete
-                // Temporary sorting
-                data = data.sort((a, b) => b.duration - a.duration);
-
                 setPlaylists(data);
             });
     }, []);
