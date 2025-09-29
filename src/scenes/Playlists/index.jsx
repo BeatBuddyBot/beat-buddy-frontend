@@ -45,7 +45,7 @@ const Playlists = () => {
 
             <Grid container spacing={2}>
                 {playlists.map((playlist) => (
-                    <Grid size={3}>
+                    <Grid size={3} key={playlist.id}>
                         <PlaylistCard key={playlist.id} playlist={playlist}/>
                     </Grid>
                 ))}

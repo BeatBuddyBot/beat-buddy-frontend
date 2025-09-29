@@ -15,6 +15,9 @@ class ApiService {
 
     getPlaylist = (id) =>
         this.client.get(`/playlists/${id}/`).then(res => res.data);
+
+    deleteSong = (id) =>
+        this.client.delete(`/songs/${id}/`).then(res => res.data);
 }
 
 export default new ApiService("http://65.21.189.102:8000");
