@@ -25,7 +25,8 @@ const SongsTable = ({initialSongs}) => {
     };
     const [colDefs, setColDefs] = useState([
         {
-            field: "position",
+            headerName: "#",
+            valueGetter: "node.rowIndex + 1"
         },
         {
             field: "title",
