@@ -6,6 +6,7 @@ import {Button, useTheme} from "@mui/material";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import {myDarkTheme, myLightTheme} from "../constants/myAgGridThemes.js";
 import ApiService from "../services/ApiService.js";
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -25,18 +26,25 @@ const SongsTable = ({initialSongs}) => {
     const [colDefs, setColDefs] = useState([
         {
             field: "position",
-            width: 100
         },
         {
             field: "title",
-            width: 450
         },
         {
             field: "duration",
-            width: 100,
             valueFormatter: (params) => {
                 return formatDuration(params.value);
             },
+        },
+        {
+            field: "url",
+            headerName: "Youtube link",
+            cellRenderer: (params) => (
+                <Button color="inherit" size="small" href={params.value} target={'_blank'}>
+                    <YouTubeIcon/>
+                </Button>
+            ),
+            sortable: false,
         },
         {
             colId: "to_delete",
@@ -46,13 +54,12 @@ const SongsTable = ({initialSongs}) => {
                     <ClearOutlinedIcon/>
                 </Button>
             ),
-            width: 100,
             sortable: false,
         }
     ]);
 
     return (
-        <div style={{height: "500px", width: "100%", maxWidth: "765px"}}>
+        <div style={{height: "500px", width: "100%"}}>
             <AgGridReact
                 theme={theme.palette.mode === 'dark' ? myDarkTheme : myLightTheme}
                 rowData={songs}
@@ -61,6 +68,7 @@ const SongsTable = ({initialSongs}) => {
                     resizable: false,
                     sortable: true,
                     lockPosition: true,
+                    flex: 1
                 }}
             />
         </div>
