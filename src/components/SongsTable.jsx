@@ -7,6 +7,7 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import {myDarkTheme, myLightTheme} from "../constants/myAgGridThemes.js";
 import ApiService from "../services/ApiService.js";
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import BeatBuddyButton from "./ui/buttons/BeatBuddyButton.jsx";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -41,9 +42,9 @@ const SongsTable = ({initialSongs}) => {
             field: "url",
             headerName: "Youtube link",
             cellRenderer: (params) => (
-                <Button color="inherit" size="small" href={params.value} target={'_blank'}>
+                <BeatBuddyButton  sx={{ border: 0 }} size="small" href={params.value} target={'_blank'}>
                     <YouTubeIcon/>
-                </Button>
+                </BeatBuddyButton>
             ),
             sortable: false,
         },
@@ -51,9 +52,9 @@ const SongsTable = ({initialSongs}) => {
             colId: "to_delete",
             headerName: "Remove",
             cellRenderer: (params) => (
-                <Button color="inherit" size="small" onClick={() => handleRemoveSong(params)}>
+                <BeatBuddyButton sx={{ border: 0 }} size="small" onClick={() => handleRemoveSong(params)}>
                     <ClearOutlinedIcon/>
-                </Button>
+                </BeatBuddyButton>
             ),
             sortable: false,
         }
