@@ -1,23 +1,15 @@
 import {themeQuartz} from "ag-grid-community";
 
-export const myDarkTheme = themeQuartz
+export const myDarkAgGridTheme = themeQuartz
     .withParams({
-        accentColor: "#70D8BD",
-        backgroundColor: "#1F2A40",
+        backgroundColor: "#161A1D",
         browserColorScheme: "dark",
-        foregroundColor: "#FFFFFF",
-        headerFontSize: 14,
-        headerTextColor: "#70D8BD",
-
-    });
-
-export const myLightTheme = themeQuartz
-    .withParams({
-        accentColor: "#70D8BD",
-        backgroundColor: "#FFFFFF",
-        browserColorScheme: "light",
-        foregroundColor: "#1F2A40",
-        headerFontSize: 14,
-        headerTextColor: "#70D8BD",
-
+        chromeBackgroundColor: {
+            ref: "foregroundColor",
+            mix: 0.07,
+            onto: "backgroundColor"
+        },
+        foregroundColor: "#FFF",
+        headerBackgroundColor: "#0B0D0F",
+        headerFontSize: 14
     });

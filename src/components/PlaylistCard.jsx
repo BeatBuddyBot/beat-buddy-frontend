@@ -1,73 +1,111 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import CardActionArea from '@mui/material/CardActionArea';
+import {useState} from 'react';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Divider from '@mui/joy/Divider';
+import Typography from '@mui/joy/Typography';
+import IconButton from '@mui/joy/IconButton';
+import Favorite from '@mui/icons-material/Favorite';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import {formatDuration} from "../utils/formatters.js";
-import {Box, useTheme} from "@mui/material";
-import {tokens} from "../theme.js";
-import { Link } from 'react-router-dom';
+import {Link} from "react-router-dom";
+import Button from '@mui/joy/Button';
+import CardActions from '@mui/joy/CardActions';
+import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
 
 export default function PlaylistCard({playlist}) {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const [isFav, setIsFav] = useState(playlist.is_favourite);
 
     return (
 
-        <Card sx={{height: "100%"}}>
-            <Box backgroundColor={colors.primary[400]}>
+        <Card variant="outlined" sx={{height: '100%'}}>
+                <CardOverflow>
+                    <AspectRatio ratio="1">
+                        <img
+                            src={playlist.cover_url}
+                            loading="lazy"
+                            alt=""
+                        />
+                    </AspectRatio>
+                </CardOverflow>
+                <CardContent>
+                    <Typography
+                        level="title-md"
+                        gutterBottom
+                        sx={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical"
+                        }}>
+                        {playlist.title}
+                    </Typography>
+                    <Typography
+                        level="body-sm"
+                        variant="body2"
+                        sx={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical"
+                        }}
+                    >
+                        {playlist.description}
+                    </Typography>
+                </CardContent>
+                <CardActions
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between', // по краям
+                        alignItems: 'center',
+                    }}
+                >
+                    <IconButton
+                        variant={isFav ? "solid" : "outlined"}
+                        color={isFav ? "neutral" : "neutral"}
 
-                <CardActionArea component={Link} to={`/playlists/${playlist.id}`}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        src={playlist.cover_url}
-                        alt={playlist.title}
-                    />
-                    <CardContent>
+                    >
+                        {isFav ? <Favorite/> : <FavoriteBorder/>}
+                    </IconButton>
+                    <Button variant="outlined" color="neutral" component={Link} to={`/playlists/${playlist.id}` } sx={{ flexGrow: 1 }}>
+                        View
+                    </Button>
+                    <IconButton variant={'solid'} color={'neutral'}>
+                        {/* ON CLICK -> REDIRECT TO !QUEUE PAGE! */}
+                        <PlaylistPlayOutlinedIcon/>
+                    </IconButton>
+                </CardActions>
+                <CardOverflow variant="soft">
+                    <Divider inset="context"/>
+                    <CardContent orientation="horizontal">
                         <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="div"
-                            color={colors.greenAccent[400]}
+                            level="body-xs"
                             sx={{
                                 overflow: "hidden",
                                 display: "-webkit-box",
-                                WebkitLineClamp: 1,
-                                WebkitBoxOrient: "vertical"
-                            }}>
-                            {playlist.title}
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                overflow: "hidden",
-                                display: "-webkit-box",
-                                WebkitLineClamp: 1,
+                                WebkitLineClamp: 2,
                                 WebkitBoxOrient: "vertical"
                             }}
                         >
-                            {playlist.description}
+                            Songs number: {playlist.length}
                         </Typography>
-
+                        <Divider orientation="vertical"/>
                         <Typography
-                            variant="subtitle2"
-                            component="div"
+                            level="body-xs"
                             sx={{
                                 overflow: "hidden",
                                 display: "-webkit-box",
-                                WebkitLineClamp: 1,
-                                WebkitBoxOrient: "vertical",
-                                color: 'text.secondary'
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical"
                             }}
                         >
-                            Songs number: {playlist.length} {playlist.length ? '('+formatDuration(playlist.duration)+')' : ''}
+                            Duration: {formatDuration(playlist.duration)}
                         </Typography>
                     </CardContent>
-                </CardActionArea>
-            </Box>
-        </Card>
+                </CardOverflow>
 
+        </Card>
     );
 }

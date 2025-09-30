@@ -1,20 +1,18 @@
 import React, {useState} from 'react';
 import {AgGridReact} from 'ag-grid-react';
-import {AllCommunityModule, ModuleRegistry} from 'ag-grid-community';
+import {AllCommunityModule, ModuleRegistry, themeQuartz} from 'ag-grid-community';
 import {formatDuration} from "../utils/formatters.js";
-import {Button, useTheme} from "@mui/material";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {myDarkTheme, myLightTheme} from "../constants/myAgGridThemes.js";
 import ApiService from "../services/ApiService.js";
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import BeatBuddyButton from "./ui/buttons/BeatBuddyButton.jsx";
+import {Button} from "@mui/material";
+import {myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
 const SongsTable = ({initialSongs}) => {
     const [songs, setSongs] = useState(initialSongs)
-    const theme = useTheme();
 
     const handleRemoveSong = (params) => {
         const idToRemove = params.data.id;
@@ -42,9 +40,9 @@ const SongsTable = ({initialSongs}) => {
             field: "url",
             headerName: "Youtube link",
             cellRenderer: (params) => (
-                <BeatBuddyButton  sx={{ border: 0 }} size="small" href={params.value} target={'_blank'}>
+                <Button  sx={{ border: 0 }} size="small" href={params.value} target={'_blank'}>
                     <YouTubeIcon/>
-                </BeatBuddyButton>
+                </Button>
             ),
             sortable: false,
         },
@@ -52,9 +50,9 @@ const SongsTable = ({initialSongs}) => {
             colId: "to_delete",
             headerName: "Remove",
             cellRenderer: (params) => (
-                <BeatBuddyButton sx={{ border: 0 }} size="small" onClick={() => handleRemoveSong(params)}>
+                <Button sx={{ border: 0 }} size="small" onClick={() => handleRemoveSong(params)}>
                     <ClearOutlinedIcon/>
-                </BeatBuddyButton>
+                </Button>
             ),
             sortable: false,
         }
@@ -63,7 +61,7 @@ const SongsTable = ({initialSongs}) => {
     return (
         <div style={{height: "500px", width: "100%"}}>
             <AgGridReact
-                theme={theme.palette.mode === 'dark' ? myDarkTheme : myLightTheme}
+                theme={myDarkAgGridTheme}
                 rowData={songs}
                 columnDefs={colDefs}
                 defaultColDef={{

@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Box} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import Header from "../../components/Header.jsx";
 import {Link, useParams} from "react-router-dom";
 import ApiService from "../../services/ApiService.js";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import SongsTable from "../../components/SongsTable.jsx";
-import BeatBuddyButton from "../../components/ui/buttons/BeatBuddyButton.jsx";
 
 const PlaylistDetails = () => {
     const {id} = useParams();
@@ -26,7 +25,8 @@ const PlaylistDetails = () => {
             <Box display="flex" alignItems="center">
                 <Header title={playlist.title} subtitle={playlist.description}/>
             </Box>
-            <BeatBuddyButton
+            <Button
+                variant={'outlined'}
                 sx={{
                     mb: "10px"
                 }}
@@ -35,7 +35,7 @@ const PlaylistDetails = () => {
             >
                 <ArrowBackOutlinedIcon sx={{mr: "10px"}}/>
                 Back to playlists
-            </BeatBuddyButton>
+            </Button>
 
             {playlist.songs && playlist.songs.length > 0 && <SongsTable initialSongs={playlist.songs}/>}
 
