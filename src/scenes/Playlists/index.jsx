@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Header from "../../components/Header.jsx";
-import {Box, Button, Grid, useTheme} from "@mui/material";
+import {Box, Grid, useTheme} from "@mui/material";
 import {tokens} from "../../theme.js";
 import PlaylistCard from "../../components/PlaylistCard.jsx";
 import ApiService from "../../services/ApiService.js";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import BeatBuddyButton from "../../components/ui/buttons/BeatBuddyButton.jsx";
 
 const Playlists = () => {
     const theme = useTheme();
@@ -25,16 +26,10 @@ const Playlists = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="PLAYLISTS" subtitle="Build the perfect playlist"/>
                 <Box>
-                    <Button
-                        sx={{
-                            backgroundColor: colors.primary[400],
-                            color: colors.greenAccent[400],
-                            fontWeight: "bold",
-                        }}
-                    >
+                    <BeatBuddyButton>
                         <PlaylistAddIcon sx={{mr: "10px"}}/>
                         Create new playlist
-                    </Button>
+                    </BeatBuddyButton>
                 </Box>
             </Box>
 
