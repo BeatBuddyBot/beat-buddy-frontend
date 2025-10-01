@@ -29,6 +29,7 @@ const SongsTable = ({initialSongs}) => {
         },
         {
             field: "title",
+            flex: 4
         },
         {
             field: "duration",

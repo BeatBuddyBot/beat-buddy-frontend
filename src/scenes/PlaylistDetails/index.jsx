@@ -9,7 +9,6 @@ import SongsTable from "../../components/SongsTable.jsx";
 const PlaylistDetails = () => {
     const {id} = useParams();
     const [playlist, setPlaylist] = useState([]);
-
     useEffect(() => {
         ApiService
             .getPlaylist(id)
@@ -37,7 +36,7 @@ const PlaylistDetails = () => {
                 Back to playlists
             </Button>
 
-            {playlist.songs && playlist.songs.length > 0 && <SongsTable initialSongs={playlist.songs}/>}
+            {playlist.songs && <SongsTable initialSongs={playlist.songs}/>}
 
         </Box>
 

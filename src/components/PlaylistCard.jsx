@@ -14,6 +14,7 @@ import {Link} from "react-router-dom";
 import Button from '@mui/joy/Button';
 import CardActions from '@mui/joy/CardActions';
 import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
+import PlaylistDetailModal from "./PlaylistDetailModal.jsx";
 
 export default function PlaylistCard({playlist}) {
     const [isFav, setIsFav] = useState(playlist.is_favourite);
@@ -69,9 +70,7 @@ export default function PlaylistCard({playlist}) {
                     >
                         {isFav ? <Favorite/> : <FavoriteBorder/>}
                     </IconButton>
-                    <Button variant="outlined" color="neutral" component={Link} to={`/playlists/${playlist.id}` } sx={{ flexGrow: 1 }}>
-                        View
-                    </Button>
+                    <PlaylistDetailModal playlist={playlist}/>
                     <IconButton variant={'solid'} color={'neutral'}>
                         {/* ON CLICK -> REDIRECT TO !QUEUE PAGE! */}
                         <PlaylistPlayOutlinedIcon/>
