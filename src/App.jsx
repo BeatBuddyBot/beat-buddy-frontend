@@ -3,7 +3,6 @@ import Topbar from "./scenes/global/Topbar.jsx";
 import Sidebar from "./scenes/global/Sidebar.jsx";
 import Playlists from "./scenes/Playlists/index.jsx";
 import Stats from "./scenes/Stats/index.jsx";
-import PlaylistDetails from "./scenes/PlaylistDetails/index.jsx";
 import {THEME_ID as MATERIAL_THEME_ID, ThemeProvider,} from '@mui/material/styles';
 import {CssVarsProvider as JoyCssVarsProvider} from '@mui/joy/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,7 +19,6 @@ function App() {
                         <Topbar/>
                         <Routes>
                             <Route path="/playlists" element={<Playlists/>}/>
-                            <Route path="/playlists/:id" element={<PlaylistDetails/>}/>
                             <Route path="/stats" element={<Stats/>}/>
                         </Routes>
                     </main>
