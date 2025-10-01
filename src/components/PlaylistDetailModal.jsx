@@ -15,13 +15,8 @@ export default function PlaylistDetailModal({playlist}) {
             .getPlaylist(playlist.id)
             .then((data) => {
                 setSongs(data.songs);
+                setOpen(true)
             });
-
-        console.log(playlist.title)
-
-        setOpen(true)
-
-
     };
 
     return (
