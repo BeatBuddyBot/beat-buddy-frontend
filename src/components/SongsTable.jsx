@@ -39,9 +39,9 @@ const SongsTable = ({initialSongs}) => {
         },
         {
             field: "url",
-            headerName: "Youtube link",
+            headerName: "Link",
             cellRenderer: (params) => (
-                <Button  sx={{ border: 0 }} size="small" href={params.value} target={'_blank'}>
+                <Button  sx={{ border: 0 }} color='neutral' size="small" href={params.value} target={'_blank'}>
                     <YouTubeIcon/>
                 </Button>
             ),
@@ -51,7 +51,7 @@ const SongsTable = ({initialSongs}) => {
             colId: "to_delete",
             headerName: "Remove",
             cellRenderer: (params) => (
-                <Button sx={{ border: 0 }} size="small" onClick={() => handleRemoveSong(params)}>
+                <Button sx={{ border: 0 }} color='neutral' size="small" onClick={() => handleRemoveSong(params)}>
                     <ClearOutlinedIcon/>
                 </Button>
             ),

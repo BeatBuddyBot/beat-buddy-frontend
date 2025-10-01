@@ -6,6 +6,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import QueueMusicOutlinedIcon from '@mui/icons-material/QueueMusicOutlined';
 import {colors} from "@mui/joy";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -72,6 +73,13 @@ const Sidebar = () => {
                             title="Playlists"
                             to="/playlists"
                             icon={<LibraryMusicOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Player"
+                            to="/player"
+                            icon={<QueueMusicOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />

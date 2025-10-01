@@ -18,4 +18,3 @@ export default new LavalinkService(
     import.meta.env.VITE_LAVALINK_URL,
     import.meta.env.VITE_LAVALINK_TOKEN
 );
-

@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import Header from "../../components/Header.jsx";
-import {Box, Button, Grid} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import PlaylistCard from "../../components/PlaylistCard.jsx";
 import ApiService from "../../services/ApiService.js";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import Button from "@mui/joy/Button";
 
 const Playlists = () => {
     const [playlists, setPlaylists] = useState([]);
@@ -22,7 +23,7 @@ const Playlists = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="PLAYLISTS" subtitle="Build the perfect playlist"/>
                 <Box>
-                    <Button variant={'outlined'}>
+                    <Button variant="outlined" color="neutral">
                         <PlaylistAddIcon sx={{mr: "10px"}}/>
                         Create new playlist
                     </Button>

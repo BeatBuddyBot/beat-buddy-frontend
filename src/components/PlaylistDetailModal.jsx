@@ -34,7 +34,7 @@ export default function PlaylistDetailModal({playlist}) {
                 <Sheet
                     variant="outlined"
                     sx={{
-                        width: "70vw",
+                        width: "50vw",
                         borderRadius: 'md',
                         p: 3, boxShadow: 'lg'
                 }}

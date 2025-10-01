@@ -10,17 +10,23 @@ import IconButton from '@mui/joy/IconButton';
 import Favorite from '@mui/icons-material/Favorite';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import {formatDuration} from "../utils/formatters.js";
-import {Link} from "react-router-dom";
-import Button from '@mui/joy/Button';
 import CardActions from '@mui/joy/CardActions';
 import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
 import PlaylistDetailModal from "./PlaylistDetailModal.jsx";
+import ApiService from "../services/ApiService.js";
 
 export default function PlaylistCard({playlist}) {
     const [isFav, setIsFav] = useState(playlist.is_favourite);
 
-    return (
+    const handleFavorite = () => {
+        ApiService
+            .patchPlaylist(playlist.id, {'is_favourite': !isFav})
+            .then((data) => {
+                setIsFav(!isFav)
+            });
+    };
 
+    return (
         <Card variant="outlined" sx={{height: '100%'}}>
                 <CardOverflow>
                     <AspectRatio ratio="1">
@@ -65,13 +71,13 @@ export default function PlaylistCard({playlist}) {
                 >
                     <IconButton
                         variant={isFav ? "solid" : "outlined"}
-                        color={isFav ? "neutral" : "neutral"}
-
+                        color={isFav ? "danger": "neutral"}
+                        onClick={handleFavorite}
                     >
                         {isFav ? <Favorite/> : <FavoriteBorder/>}
                     </IconButton>
                     <PlaylistDetailModal playlist={playlist}/>
-                    <IconButton variant={'solid'} color={'neutral'}>
+                    <IconButton variant={'solid'} color={'success'}>
                         {/* ON CLICK -> REDIRECT TO !QUEUE PAGE! */}
                         <PlaylistPlayOutlinedIcon/>
                     </IconButton>
