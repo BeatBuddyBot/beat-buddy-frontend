@@ -15,19 +15,22 @@ export default function PlaylistDetailModal({playlist, setPlaylist}) {
     const addSongToTable = (song) => {
         setPlaylist(prev => ({
             ...prev,
-            songs: [...prev.songs, song],
+            songs: [...(prev.songs || []), song],
         }));
     };
 
     const handleOpen = () => {
-        ApiService
-            .getPlaylist(playlist.id)
-            .then((data) => {
-                setPlaylist(data);
-                setOpen(true)
-            });
+        if (playlist.songs) {
+            setOpen(true);
+        } else {
+            ApiService
+                .getPlaylist(playlist.id)
+                .then((data) => {
+                    setPlaylist(data);
+                    setOpen(true);
+                });
+        }
     };
-
     return (
         <React.Fragment>
             <Button variant="outlined" color="neutral" sx={{ flexGrow: 1 }} onClick={handleOpen}>
