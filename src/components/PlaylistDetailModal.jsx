@@ -6,6 +6,8 @@ import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import SongsTable from "./SongsTable.jsx";
 import ApiService from "../services/ApiService.js";
+import LavalinkModal from "./LavalinkModal.jsx";
+import {Box} from "@mui/material";
 
 export default function PlaylistDetailModal({playlist}) {
     const [open, setOpen] = React.useState(false);
@@ -49,15 +51,19 @@ export default function PlaylistDetailModal({playlist}) {
                     >
                         {playlist.title}
                     </Typography>
-                    <Typography
-                        component="p"
-                        id="modal-title"
-                        level="h4"
-                        textColor="inherit"
-                        sx={{ mb: 1 }}
-                    >
-                        {playlist.description}
-                    </Typography>
+                    <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ mb: 1 }}>
+                        <Typography
+                            component="p"
+                            id="modal-title"
+                            level="h4"
+                            textColor="inherit"
+                            sx={{ mb: 1 }}
+                        >
+                            {playlist.description}
+                        </Typography>
+                        <LavalinkModal playlist_id={playlist.id}/>
+                    </Box>
+
                     <SongsTable initialSongs={songs}/>
                 </Sheet>
             </Modal>
