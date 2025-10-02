@@ -16,7 +16,7 @@ function App() {
                 <div className="app">
                     <Sidebar style={{height: "100vh", position: "fixed"}}/>
                     <main className="content">
-                        <Topbar/>
+                        {/*<Topbar/>*/}
                         <Routes>
                             <Route path="/playlists" element={<Playlists/>}/>
                             <Route path="/stats" element={<Stats/>}/>

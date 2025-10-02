@@ -67,6 +67,10 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
         }
     }
 
+    const handleModalClose = () => {
+        setSelectedSong(null);
+        setOpenModal(false);
+    }
 
     return (
         <Fragment>
@@ -78,7 +82,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={openModal}
-                onClose={() => setOpenModal(false)}
+                onClose={handleModalClose}
                 sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
 
@@ -93,11 +97,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
                         options={options}
                         onInputChange={handleChange}
                         onChange={(event, newValue) => setSelectedSong(newValue)}
-                        // getOptionLabel={(option) => option.label}
-                        style={{width: 300}}
-                        // renderInput={(params) => (
-                        //     <TextField {...params} label="Combo box" variant="outlined"/>
-                        // )}
+                        style={{width: 500}}
                         filterOptions={(options) => options} // Disable filtering. IMPORTANT!
 
                     />
