@@ -15,43 +15,94 @@ import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
 import PlaylistDetailModal from "./PlaylistDetailModal.jsx";
 import ApiService from "../services/ApiService.js";
 
-export default function PlaylistCard({playlist}) {
-    const [isFav, setIsFav] = useState(playlist.is_favourite);
+export default function PlaylistCard({initialPlaylist}) {
+    const [playlist, setPlaylist] = useState(initialPlaylist)
 
-    const handleFavorite = () => {
+
+    const getPlaylistSongsNumber = () => {
+        return Array.isArray(playlist.songs) ? playlist.songs.length : playlist.length
+    }
+
+    const getPlaylistDuration = () => {
+        return formatDuration(
+            Array.isArray(playlist.songs)
+                ? playlist.songs.reduce((sum, song) => sum + song.duration, 0)
+                : playlist.duration
+        )
+    }
+
+
+    const toggleFavourite = () => {
         ApiService
-            .patchPlaylist(playlist.id, {'is_favourite': !isFav})
+            .patchPlaylist(playlist.id, {'is_favourite': !playlist.is_favourite})
             .then((data) => {
-                setIsFav(!isFav)
+                setPlaylist(prev => ({
+                    ...prev,
+                    is_favourite: !prev.is_favourite,
+                }));
             });
     };
 
     return (
         <Card variant="outlined" sx={{height: '100%'}}>
-                <CardOverflow>
-                    <AspectRatio ratio="1">
-                        <img
-                            src={playlist.cover_url}
-                            loading="lazy"
-                            alt=""
-                        />
-                    </AspectRatio>
-                </CardOverflow>
-                <CardContent>
+            <CardOverflow>
+                <AspectRatio ratio="1">
+                    <img
+                        src={playlist.cover_url}
+                        loading="lazy"
+                        alt=""
+                    />
+                </AspectRatio>
+            </CardOverflow>
+            <CardContent>
+                <Typography
+                    level="title-md"
+                    gutterBottom
+                    sx={{
+                        overflow: "hidden",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical"
+                    }}>
+                    {playlist.title}
+                </Typography>
+                <Typography
+                    level="body-sm"
+                    variant="body2"
+                    sx={{
+                        overflow: "hidden",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical"
+                    }}
+                >
+                    {playlist.description}
+                </Typography>
+            </CardContent>
+            <CardActions
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between', // по краям
+                    alignItems: 'center',
+                }}
+            >
+                <IconButton
+                    variant={playlist.is_favourite ? "solid" : "outlined"}
+                    color={playlist.is_favourite ? "danger" : "neutral"}
+                    onClick={toggleFavourite}
+                >
+                    {playlist.is_favourite ? <Favorite/> : <FavoriteBorder/>}
+                </IconButton>
+                <PlaylistDetailModal playlist={playlist} setPlaylist={setPlaylist}/>
+                <IconButton variant={'solid'} color={'success'}>
+                    <PlaylistPlayOutlinedIcon/>
+                </IconButton>
+            </CardActions>
+            <CardOverflow variant="soft">
+                <Divider inset="context"/>
+                <CardContent orientation="horizontal">
                     <Typography
-                        level="title-md"
-                        gutterBottom
-                        sx={{
-                            overflow: "hidden",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical"
-                        }}>
-                        {playlist.title}
-                    </Typography>
-                    <Typography
-                        level="body-sm"
-                        variant="body2"
+                        level="body-xs"
                         sx={{
                             overflow: "hidden",
                             display: "-webkit-box",
@@ -59,58 +110,22 @@ export default function PlaylistCard({playlist}) {
                             WebkitBoxOrient: "vertical"
                         }}
                     >
-                        {playlist.description}
+                        Songs number: {getPlaylistSongsNumber()}
+                    </Typography>
+                    <Divider orientation="vertical"/>
+                    <Typography
+                        level="body-xs"
+                        sx={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical"
+                        }}
+                    >
+                        Duration: {getPlaylistDuration()}
                     </Typography>
                 </CardContent>
-                <CardActions
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between', // по краям
-                        alignItems: 'center',
-                    }}
-                >
-                    <IconButton
-                        variant={isFav ? "solid" : "outlined"}
-                        color={isFav ? "danger": "neutral"}
-                        onClick={handleFavorite}
-                    >
-                        {isFav ? <Favorite/> : <FavoriteBorder/>}
-                    </IconButton>
-                    <PlaylistDetailModal playlist={playlist}/>
-                    <IconButton variant={'solid'} color={'success'}>
-                        {/* ON CLICK -> REDIRECT TO !QUEUE PAGE! */}
-                        <PlaylistPlayOutlinedIcon/>
-                    </IconButton>
-                </CardActions>
-                <CardOverflow variant="soft">
-                    <Divider inset="context"/>
-                    <CardContent orientation="horizontal">
-                        <Typography
-                            level="body-xs"
-                            sx={{
-                                overflow: "hidden",
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical"
-                            }}
-                        >
-                            Songs number: {playlist.length}
-                        </Typography>
-                        <Divider orientation="vertical"/>
-                        <Typography
-                            level="body-xs"
-                            sx={{
-                                overflow: "hidden",
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical"
-                            }}
-                        >
-                            Duration: {formatDuration(playlist.duration)}
-                        </Typography>
-                    </CardContent>
-                </CardOverflow>
-
+            </CardOverflow>
         </Card>
     );
 }

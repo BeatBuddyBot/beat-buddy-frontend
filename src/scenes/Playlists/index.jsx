@@ -33,7 +33,7 @@ const Playlists = () => {
             <Grid container spacing={2}>
                 {playlists.map((playlist) => (
                     <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2,}} key={playlist.id}  >
-                        <PlaylistCard key={playlist.id} playlist={playlist}/>
+                        <PlaylistCard key={playlist.id} initialPlaylist={playlist} />
                     </Grid>
                 ))}
             </Grid>

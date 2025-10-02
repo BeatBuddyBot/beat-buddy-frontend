@@ -9,19 +9,21 @@ import ApiService from "../services/ApiService.js";
 import LavalinkModal from "./LavalinkModal.jsx";
 import {Box} from "@mui/material";
 
-export default function PlaylistDetailModal({playlist}) {
+export default function PlaylistDetailModal({playlist, setPlaylist}) {
     const [open, setOpen] = React.useState(false);
-    const [songs, setSongs] = React.useState([]);
 
     const addSongToTable = (song) => {
-        setSongs([...songs, song]);
+        setPlaylist(prev => ({
+            ...prev,
+            songs: [...prev.songs, song],
+        }));
     };
 
     const handleOpen = () => {
         ApiService
             .getPlaylist(playlist.id)
             .then((data) => {
-                setSongs(data.songs);
+                setPlaylist(data);
                 setOpen(true)
             });
     };
@@ -69,7 +71,7 @@ export default function PlaylistDetailModal({playlist}) {
                         <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
                     </Box>
 
-                    <SongsTable songs={songs} setSongs={setSongs}/>
+                    <SongsTable songs={playlist.songs} setPlaylist={setPlaylist}/>
                 </Sheet>
             </Modal>
         </React.Fragment>

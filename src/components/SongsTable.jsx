@@ -11,13 +11,18 @@ import {myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
-const SongsTable = ({songs, setSongs}) => {
+const SongsTable = ({songs, setPlaylist}) => {
+
     const handleRemoveSong = (params) => {
         const idToRemove = params.data.id;
         ApiService
             .deleteSong(idToRemove)
             .then(() => {
-                setSongs((prev) => prev.filter((song) => song.id !== idToRemove));
+                setPlaylist((prev) => ({
+                    ...prev,
+                    songs: prev.songs.filter((song) => song.id !== idToRemove),
+                }));
+
             });
     };
     const [colDefs, setColDefs] = useState([
