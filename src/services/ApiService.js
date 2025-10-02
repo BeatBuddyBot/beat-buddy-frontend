@@ -19,6 +19,9 @@ class ApiService {
     patchPlaylist = (id, data) =>
         this.client.patch(`/playlists/${id}/`, data).then(res => res.data);
 
+    addSongToPlaylist = (data) =>
+        this.client.post('/songs/', data).then(res => res.data);
+
     deleteSong = (id) =>
         this.client.delete(`/songs/${id}/`).then(res => res.data);
 }

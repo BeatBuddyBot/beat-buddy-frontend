@@ -19,6 +19,7 @@
     "ag-grid-react": "^34.2.0",
     "axios": "^1.12.2",
     "eslint-plugin-react": "^7.37.5",
+    "lodash": "^4.17.21",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-pro-sidebar": "^0.7.1",
