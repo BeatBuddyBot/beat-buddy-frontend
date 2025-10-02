@@ -11,9 +11,7 @@ import {myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
-const SongsTable = ({initialSongs}) => {
-    const [songs, setSongs] = useState(initialSongs)
-
+const SongsTable = ({songs, setSongs}) => {
     const handleRemoveSong = (params) => {
         const idToRemove = params.data.id;
         ApiService

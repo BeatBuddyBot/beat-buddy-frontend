@@ -12,6 +12,11 @@ import {Box} from "@mui/material";
 export default function PlaylistDetailModal({playlist}) {
     const [open, setOpen] = React.useState(false);
     const [songs, setSongs] = React.useState([]);
+
+    const addSongToTable = (song) => {
+        setSongs([...songs, song]);
+    };
+
     const handleOpen = () => {
         ApiService
             .getPlaylist(playlist.id)
@@ -61,10 +66,10 @@ export default function PlaylistDetailModal({playlist}) {
                         >
                             {playlist.description}
                         </Typography>
-                        <LavalinkModal playlist_id={playlist.id}/>
+                        <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
                     </Box>
 
-                    <SongsTable initialSongs={songs}/>
+                    <SongsTable songs={songs} setSongs={setSongs}/>
                 </Sheet>
             </Modal>
         </React.Fragment>
