@@ -13,8 +13,15 @@ import {debounce} from "lodash";
 export default function LavalinkModal({playlist_id, addSongToTable}) {
     const [openModal, setOpenModal] = useState(false);
     const [selectedSong, setSelectedSong] = useState();
+    const [disableAddButton, setDisableAddButton] = useState(true)
 
     const [options, setOptions] = useState([]);
+
+    const resetModal = () => {
+        setSelectedSong(null)
+        setOpenModal(false)
+        setDisableAddButton(true);
+    }
 
     const getData = (searchTerm) => {
         setOptions([])
@@ -53,23 +60,25 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
         value ? debouncedGetData(value) : setOptions([]);
     };
 
+    const handleOnChange = (event, newValue) => {
+        if (newValue) {
+            setSelectedSong(newValue)
+            setDisableAddButton(false)
+        } else {
+            setDisableAddButton(false)
+        }
+
+    }
+
     const handleAddSong = () => {
         if (selectedSong) {
             ApiService
                 .addSongToPlaylist(selectedSong)
                 .then((data) => {
                     addSongToTable(data)
-                    setSelectedSong(null)
-                    setOpenModal(false)
+                    resetModal()
                 });
-        } else {
-            // Тут нужно как-то обозначить что поле add обязательное
         }
-    }
-
-    const handleModalClose = () => {
-        setSelectedSong(null);
-        setOpenModal(false);
     }
 
     return (
@@ -82,7 +91,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={openModal}
-                onClose={handleModalClose}
+                onClose={resetModal}
                 sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
 
@@ -96,13 +105,13 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
                     <Autocomplete
                         options={options}
                         onInputChange={handleChange}
-                        onChange={(event, newValue) => setSelectedSong(newValue)}
+                        onChange={handleOnChange}
                         style={{width: 500}}
                         filterOptions={(options) => options} // Disable filtering. IMPORTANT!
 
                     />
                     <DialogActions>
-                        <Button variant="outlined" color="neutral" onClick={handleAddSong}>
+                        <Button variant="outlined" color="neutral" onClick={handleAddSong} disabled={disableAddButton}>
                             Add
                         </Button>
                     </DialogActions>

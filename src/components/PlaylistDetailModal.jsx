@@ -33,7 +33,7 @@ export default function PlaylistDetailModal({playlist, setPlaylist}) {
     };
     return (
         <React.Fragment>
-            <Button variant="outlined" color="neutral" sx={{ flexGrow: 1 }} onClick={handleOpen}>
+            <Button variant="outlined" color="neutral" sx={{flexGrow: 1}} onClick={handleOpen}>
                 View
             </Button>
             <Modal
@@ -41,7 +41,7 @@ export default function PlaylistDetailModal({playlist, setPlaylist}) {
                 aria-describedby="modal-desc"
                 open={open}
                 onClose={() => setOpen(false)}
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
             >
                 <Sheet
                     variant="outlined"
@@ -49,32 +49,32 @@ export default function PlaylistDetailModal({playlist, setPlaylist}) {
                         width: "50vw",
                         borderRadius: 'md',
                         p: 3, boxShadow: 'lg'
-                }}
+                    }}
                 >
-                    <ModalClose variant="plain" sx={{ m: 1 }} />
+                    <ModalClose variant="plain" sx={{m: 1}}/>
                     <Typography
                         component="h2"
                         id="modal-title"
                         level="h3"
                         textColor="inherit"
-                        sx={{ fontWeight: 'lg', mb: 1 }}
+                        sx={{fontWeight: 'lg', mb: 1}}
                     >
                         {playlist.title}
                     </Typography>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ mb: 1 }}>
+                    <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" >
                         <Typography
                             component="p"
                             id="modal-title"
                             textColor="inherit"
-                            sx={{ mb: 1 }}
+                            sx={{mb: 1}}
                         >
                             {playlist.description}
                         </Typography>
 
                     </Box>
-                    <Box display="flex" justifyContent="flex-end" alignItems="end" width="100%" sx={{ mb: 1 }}>
-                    <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
-                </Box>
+                    <Box display="flex" justifyContent="flex-end" alignItems="end" width="100%" sx={{mb: 1}}>
+                        <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
+                    </Box>
                     <SongsTable songs={playlist.songs} setPlaylist={setPlaylist}/>
                 </Sheet>
             </Modal>
