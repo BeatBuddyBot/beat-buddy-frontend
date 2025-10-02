@@ -65,15 +65,16 @@ export default function PlaylistDetailModal({playlist, setPlaylist}) {
                         <Typography
                             component="p"
                             id="modal-title"
-                            level="h4"
                             textColor="inherit"
                             sx={{ mb: 1 }}
                         >
                             {playlist.description}
                         </Typography>
-                        <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
-                    </Box>
 
+                    </Box>
+                    <Box display="flex" justifyContent="flex-end" alignItems="end" width="100%" sx={{ mb: 1 }}>
+                    <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
+                </Box>
                     <SongsTable songs={playlist.songs} setPlaylist={setPlaylist}/>
                 </Sheet>
             </Modal>
