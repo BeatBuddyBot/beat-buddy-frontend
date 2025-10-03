@@ -17,13 +17,26 @@ const Playlists = () => {
             });
     }, []);
 
+    const handleCreatePlaylist = () => {
+        ApiService
+            .createPlaylist({})
+            .then((data) => {
+                setPlaylists((prev) => {
+                    const favorites = prev.filter(p => p.is_favorite);
+                    const others = prev.filter(p => !p.is_favorite);
+                    return [...favorites, data, ...others];
+                });
+            });
+    }
+
+
     return (
 
         <Box m="20px">
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="PLAYLISTS" subtitle="Build the perfect playlist"/>
                 <Box>
-                    <Button variant="outlined" color="neutral">
+                    <Button variant="outlined" color="neutral" onClick={handleCreatePlaylist}>
                         <PlaylistAddIcon sx={{mr: "10px"}}/>
                         Create new playlist
                     </Button>
@@ -32,8 +45,8 @@ const Playlists = () => {
 
             <Grid container spacing={2}>
                 {playlists.map((playlist) => (
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2,}} key={playlist.id}  >
-                        <PlaylistCard key={playlist.id} initialPlaylist={playlist} />
+                    <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2,}} key={playlist.id}>
+                        <PlaylistCard key={playlist.id} initialPlaylist={playlist}/>
                     </Grid>
                 ))}
             </Grid>

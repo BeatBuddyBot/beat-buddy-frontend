@@ -12,7 +12,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import {formatDuration} from "../utils/formatters.js";
 import CardActions from '@mui/joy/CardActions';
 import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
-import PlaylistDetailModal from "./PlaylistDetailModal.jsx";
+import PlaylistViewModal from "./PlaylistViewModal.jsx";
 import ApiService from "../services/ApiService.js";
 
 export default function PlaylistCard({initialPlaylist}) {
@@ -34,11 +34,11 @@ export default function PlaylistCard({initialPlaylist}) {
 
     const toggleFavourite = () => {
         ApiService
-            .patchPlaylist(playlist.id, {'is_favourite': !playlist.is_favourite})
+            .patchPlaylist(playlist.id, {'is_favorite': !playlist.is_favorite})
             .then((data) => {
                 setPlaylist(prev => ({
                     ...prev,
-                    is_favourite: !prev.is_favourite,
+                    is_favorite: !prev.is_favorite,
                 }));
             });
     };
@@ -48,9 +48,8 @@ export default function PlaylistCard({initialPlaylist}) {
             <CardOverflow>
                 <AspectRatio ratio="1">
                     <img
-                        src={playlist.cover_url}
+                        src={playlist.cover_url ? playlist.cover_url: 'src/assets/playlist_default_cover.png'}
                         loading="lazy"
-                        alt=""
                     />
                 </AspectRatio>
             </CardOverflow>
@@ -87,13 +86,13 @@ export default function PlaylistCard({initialPlaylist}) {
                 }}
             >
                 <IconButton
-                    variant={playlist.is_favourite ? "solid" : "outlined"}
-                    color={playlist.is_favourite ? "danger" : "neutral"}
+                    variant={playlist.is_favorite ? "solid" : "outlined"}
+                    color={playlist.is_favorite ? "danger" : "neutral"}
                     onClick={toggleFavourite}
                 >
-                    {playlist.is_favourite ? <Favorite/> : <FavoriteBorder/>}
+                    {playlist.is_favorite ? <Favorite/> : <FavoriteBorder/>}
                 </IconButton>
-                <PlaylistDetailModal playlist={playlist} setPlaylist={setPlaylist}/>
+                <PlaylistViewModal playlist={playlist} setPlaylist={setPlaylist}/>
                 <IconButton variant={'solid'} color={'success'}>
                     <PlaylistPlayOutlinedIcon/>
                 </IconButton>
