@@ -19,8 +19,8 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
 
     const resetModal = () => {
         setSelectedSong(null)
-        setOpenModal(false)
         setDisableAddButton(true);
+        setOpenModal(false)
     }
 
     const getData = (searchTerm) => {
