@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {AgGridReact} from 'ag-grid-react';
-import {AllCommunityModule, ModuleRegistry, themeQuartz} from 'ag-grid-community';
+import {AllCommunityModule, ModuleRegistry} from 'ag-grid-community';
 import {formatDuration} from "../utils/formatters.js";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import ApiService from "../services/ApiService.js";
@@ -25,14 +25,12 @@ const SongsTable = ({songs, setPlaylist}) => {
 
             });
     };
+
     const [colDefs, setColDefs] = useState([
         {
-            headerName: "#",
-            valueGetter: "node.rowIndex + 1"
-        },
-        {
             field: "title",
-            flex: 4
+            flex: 4,
+            rowDrag: true
         },
         {
             field: "duration",
@@ -44,7 +42,7 @@ const SongsTable = ({songs, setPlaylist}) => {
             field: "url",
             headerName: "Link",
             cellRenderer: (params) => (
-                <Button  sx={{ border: 0 }} color='neutral' size="small" href={params.value} target={'_blank'}>
+                <Button sx={{border: 0}} color='neutral' size="small" href={params.value} target={'_blank'}>
                     <YouTubeIcon/>
                 </Button>
             ),
@@ -54,7 +52,7 @@ const SongsTable = ({songs, setPlaylist}) => {
             colId: "to_delete",
             headerName: "Remove",
             cellRenderer: (params) => (
-                <Button sx={{ border: 0 }} color='neutral' size="small" onClick={() => handleRemoveSong(params)}>
+                <Button sx={{border: 0}} color='neutral' size="small" onClick={() => handleRemoveSong(params)}>
                     <ClearOutlinedIcon/>
                 </Button>
             ),
@@ -62,12 +60,24 @@ const SongsTable = ({songs, setPlaylist}) => {
         }
     ]);
 
+    function onRowDragEnd(e) {
+        ApiService
+            .patchSong(
+                e.node.data.id,
+                {
+                    position: e.node.rowIndex
+                }
+            )
+    }
+
     return (
         <div style={{height: "500px", width: "100%"}}>
             <AgGridReact
                 theme={myDarkAgGridTheme}
                 rowData={songs}
                 columnDefs={colDefs}
+                rowDragManaged
+                onRowDragEnd={onRowDragEnd}
                 defaultColDef={{
                     resizable: false,
                     sortable: true,

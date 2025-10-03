@@ -73,7 +73,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
     const handleAddSong = () => {
         if (selectedSong) {
             ApiService
-                .addSongToPlaylist(selectedSong)
+                .createSong(selectedSong)
                 .then((data) => {
                     addSongToTable(data)
                     resetModal()
