@@ -8,6 +8,7 @@ import SongsTable from "./SongsTable.jsx";
 import ApiService from "../services/ApiService.js";
 import LavalinkModal from "./LavalinkModal.jsx";
 import {Box} from "@mui/material";
+import PlaylistPlayOutlinedIcon from "@mui/icons-material/PlaylistPlayOutlined";
 
 export default function PlaylistViewModal({playlist, setPlaylist}) {
     const [open, setOpen] = React.useState(false);
@@ -72,8 +73,11 @@ export default function PlaylistViewModal({playlist, setPlaylist}) {
                         </Typography>
 
                     </Box>
-                    <Box display="flex" justifyContent="flex-end" alignItems="end" width="100%" sx={{mb: 1}}>
+                    <Box display="flex" justifyContent="flex-end" alignItems="end" width="100%" sx={{mb: 1}} gap={2}>
                         <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
+                        <Button variant="solid" color="success" startDecorator={<PlaylistPlayOutlinedIcon/>}>
+                            Play
+                        </Button>
                     </Box>
                     <SongsTable songs={playlist.songs} setPlaylist={setPlaylist}/>
                 </Sheet>
