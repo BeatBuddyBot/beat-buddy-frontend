@@ -9,7 +9,7 @@ import ApiService from "../services/ApiService.js";
 import LavalinkModal from "./LavalinkModal.jsx";
 import {Box} from "@mui/material";
 
-export default function PlaylistDetailModal({playlist, setPlaylist}) {
+export default function PlaylistViewModal({playlist, setPlaylist}) {
     const [open, setOpen] = React.useState(false);
 
     const addSongToTable = (song) => {
