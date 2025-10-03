@@ -14,6 +14,9 @@ import CardActions from '@mui/joy/CardActions';
 import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
 import PlaylistViewModal from "./PlaylistViewModal.jsx";
 import ApiService from "../services/ApiService.js";
+import Box from '@mui/joy/Box';
+import CardCover from '@mui/joy/CardCover';
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 export default function PlaylistCard({initialPlaylist}) {
     const [playlist, setPlaylist] = useState(initialPlaylist)
@@ -30,7 +33,6 @@ export default function PlaylistCard({initialPlaylist}) {
                 : playlist.duration
         )
     }
-
 
     const toggleFavourite = () => {
         ApiService
@@ -52,6 +54,43 @@ export default function PlaylistCard({initialPlaylist}) {
                         loading="lazy"
                     />
                 </AspectRatio>
+                <CardCover
+                    className="gradient-cover"
+                    sx={{
+                        '&:hover, &:focus-within': {
+                            opacity: 1,
+                        },
+                        opacity: 0,
+                        transition: '0.1s ease-in',
+                        background:
+                            'linear-gradient(0deg, transparent 62%, rgba(0,0,0,0.4) 91.17%)',
+                    }}
+                >
+                    <div>
+                        <Box
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1.5,
+                                flexGrow: 1,
+                                alignSelf: 'flex-start',
+                            }}
+                        >
+                            <IconButton
+                                // size="sm"
+                                variant="solid"
+                                color="neutral"
+                                sx={{
+                                    ml: 'auto',
+                                    bgcolor: 'rgba(0 0 0 / 0.2)'
+                            }}
+                            >
+                                <MoreHorizOutlinedIcon />
+                            </IconButton>
+                        </Box>
+                    </div>
+                </CardCover>
             </CardOverflow>
             <CardContent>
                 <Typography
