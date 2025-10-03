@@ -34,11 +34,11 @@ export default function PlaylistCard({initialPlaylist}) {
 
     const toggleFavourite = () => {
         ApiService
-            .patchPlaylist(playlist.id, {'is_favourite': !playlist.is_favourite})
+            .patchPlaylist(playlist.id, {'is_favorite': !playlist.is_favorite})
             .then((data) => {
                 setPlaylist(prev => ({
                     ...prev,
-                    is_favourite: !prev.is_favourite,
+                    is_favorite: !prev.is_favorite,
                 }));
             });
     };
@@ -86,11 +86,11 @@ export default function PlaylistCard({initialPlaylist}) {
                 }}
             >
                 <IconButton
-                    variant={playlist.is_favourite ? "solid" : "outlined"}
-                    color={playlist.is_favourite ? "danger" : "neutral"}
+                    variant={playlist.is_favorite ? "solid" : "outlined"}
+                    color={playlist.is_favorite ? "danger" : "neutral"}
                     onClick={toggleFavourite}
                 >
-                    {playlist.is_favourite ? <Favorite/> : <FavoriteBorder/>}
+                    {playlist.is_favorite ? <Favorite/> : <FavoriteBorder/>}
                 </IconButton>
                 <PlaylistViewModal playlist={playlist} setPlaylist={setPlaylist}/>
                 <IconButton variant={'solid'} color={'success'}>
