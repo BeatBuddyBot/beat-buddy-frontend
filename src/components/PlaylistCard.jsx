@@ -16,9 +16,19 @@ import PlaylistViewModal from "./PlaylistViewModal.jsx";
 import ApiService from "../services/ApiService.js";
 import Box from '@mui/joy/Box';
 import CardCover from '@mui/joy/CardCover';
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import Dropdown from '@mui/joy/Dropdown';
+import Menu from '@mui/joy/Menu';
+import MenuButton from '@mui/joy/MenuButton';
+import MenuItem from '@mui/joy/MenuItem';
+import MoreVert from '@mui/icons-material/MoreVert';
+import Edit from '@mui/icons-material/Edit';
+import DeleteForever from '@mui/icons-material/DeleteForever';
+import {ListItemDecorator} from "@mui/joy";
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import {pink, red} from "@mui/material/colors";
 
-export default function PlaylistCard({initialPlaylist}) {
+
+export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     const [playlist, setPlaylist] = useState(initialPlaylist)
 
 
@@ -32,6 +42,14 @@ export default function PlaylistCard({initialPlaylist}) {
                 ? playlist.songs.reduce((sum, song) => sum + song.duration, 0)
                 : playlist.duration
         )
+    }
+
+    const handleDeletePlaylist = () => {
+        ApiService
+            .deletePlaylist(playlist.id)
+            .then((data) => {
+                setPlaylists((prev) => prev.filter((p) => p.id !== playlist.id));
+            });
     }
 
     const toggleFavourite = () => {
@@ -50,7 +68,7 @@ export default function PlaylistCard({initialPlaylist}) {
             <CardOverflow>
                 <AspectRatio ratio="1">
                     <img
-                        src={playlist.cover_url ? playlist.cover_url: 'src/assets/playlist_default_cover.png'}
+                        src={playlist.cover_url ? playlist.cover_url : 'src/assets/playlist_default_cover.png'}
                         loading="lazy"
                     />
                 </AspectRatio>
@@ -77,17 +95,52 @@ export default function PlaylistCard({initialPlaylist}) {
                                 alignSelf: 'flex-start',
                             }}
                         >
-                            <IconButton
-                                // size="sm"
-                                variant="solid"
-                                color="neutral"
-                                sx={{
-                                    ml: 'auto',
-                                    bgcolor: 'rgba(0 0 0 / 0.2)'
-                            }}
-                            >
-                                <MoreHorizOutlinedIcon />
-                            </IconButton>
+                            <Dropdown>
+                                <MenuButton
+                                    slots={{root: IconButton}}
+                                    slotProps={{
+                                        root: {
+                                            variant: "solid",
+                                            color: "neutral",
+                                            sx: {
+                                                ml: "auto",
+                                                bgcolor: "rgba(0 0 0 / 0.2)",
+                                            },
+                                        },
+                                    }}
+                                >
+                                    <MoreVert/>
+                                </MenuButton>
+                                <Menu size="sm">
+                                    <MenuItem>
+                                        <ListItemDecorator>
+                                            <Edit/>
+                                        </ListItemDecorator>{' '}
+
+                                        <Typography>
+                                            Edit
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <ListItemDecorator>
+                                            <ImageOutlinedIcon/>
+                                        </ListItemDecorator>{' '}
+
+                                        <Typography>
+                                            Upload new cover
+                                        </Typography>
+                                    </MenuItem>
+                                    <Divider sx={{ my: 0.5 }} />
+                                    <MenuItem onClick={handleDeletePlaylist}>
+                                        <ListItemDecorator>
+                                            <DeleteForever sx={{ color: red[500] }} />
+                                        </ListItemDecorator>{' '}
+                                        <Typography>
+                                            Delete
+                                        </Typography>
+                                    </MenuItem>
+                                </Menu>
+                            </Dropdown>
                         </Box>
                     </div>
                 </CardCover>

@@ -19,6 +19,9 @@ class ApiService {
     createPlaylist = (data) =>
         this.client.post('/playlists/', data).then(res => res.data);
 
+    deletePlaylist = (id) =>
+        this.client.delete(`/playlists/${id}/`).then(res => res.data);
+
     patchPlaylist = (id, data) =>
         this.client.patch(`/playlists/${id}/`, data).then(res => res.data);
 
