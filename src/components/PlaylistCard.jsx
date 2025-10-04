@@ -25,12 +25,13 @@ import Edit from '@mui/icons-material/Edit';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import {ListItemDecorator} from "@mui/joy";
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import {pink, red} from "@mui/material/colors";
+import {red} from "@mui/material/colors";
+import PlaylistEditModal from "./PlaylistEditModal.jsx";
 
 
 export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     const [playlist, setPlaylist] = useState(initialPlaylist)
-
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
     const getPlaylistSongsNumber = () => {
         return Array.isArray(playlist.songs) ? playlist.songs.length : playlist.length
@@ -112,7 +113,7 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                                     <MoreVert/>
                                 </MenuButton>
                                 <Menu size="sm">
-                                    <MenuItem>
+                                    <MenuItem onClick={() => setIsEditModalOpen(true)}>
                                         <ListItemDecorator>
                                             <Edit/>
                                         </ListItemDecorator>{' '}
@@ -145,6 +146,12 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                     </div>
                 </CardCover>
             </CardOverflow>
+            <PlaylistEditModal
+                open={isEditModalOpen}
+                onClose={() => setIsEditModalOpen(false)}
+                playlist={playlist}
+                setPlaylist={setPlaylist}
+            />
             <CardContent>
                 <Typography
                     level="title-md"
