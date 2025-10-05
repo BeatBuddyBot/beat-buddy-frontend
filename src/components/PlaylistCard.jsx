@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
@@ -32,6 +32,7 @@ import PlaylistEditModal from "./PlaylistEditModal.jsx";
 export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     const [playlist, setPlaylist] = useState(initialPlaylist)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const fileInputRef = useRef(null);
 
     const getPlaylistSongsNumber = () => {
         return Array.isArray(playlist.songs) ? playlist.songs.length : playlist.length
@@ -52,6 +53,32 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                 setPlaylists((prev) => prev.filter((p) => p.id !== playlist.id));
             });
     }
+
+    const handleClickUpload = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            const base64 = reader.result;
+            ApiService
+                .patchPlaylist(playlist.id, {'cover_image': base64})
+                .then((data) => {
+                    setPlaylist(prev => ({
+                        ...prev,
+                        cover_url: data.cover_url,
+                    }));
+                });
+            event.target.value = '';
+        };
+
+        reader.readAsDataURL(file);
+    };
 
     const toggleFavourite = () => {
         ApiService
@@ -117,16 +144,14 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                                         <ListItemDecorator>
                                             <Edit/>
                                         </ListItemDecorator>{' '}
-
                                         <Typography>
                                             Edit
                                         </Typography>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem onClick={handleClickUpload}>
                                         <ListItemDecorator>
                                             <ImageOutlinedIcon/>
                                         </ListItemDecorator>{' '}
-
                                         <Typography>
                                             Upload new cover
                                         </Typography>
@@ -146,6 +171,13 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                     </div>
                 </CardCover>
             </CardOverflow>
+            <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+                accept="image/*"
+            />
             <PlaylistEditModal
                 open={isEditModalOpen}
                 onClose={() => setIsEditModalOpen(false)}
