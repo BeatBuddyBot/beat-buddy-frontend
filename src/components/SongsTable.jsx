@@ -6,7 +6,7 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import ApiService from "../services/ApiService.js";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import {Button} from "@mui/material";
-import {myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
+import {myAltDarkAgGridTheme, myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -84,6 +84,8 @@ const SongsTable = ({songs, setPlaylist}) => {
                     lockPosition: true,
                     flex: 1
                 }}
+                localeText={{ noRowsToShow: 'No songs to display.' }}
+
             />
         </div>
     )
