@@ -14,18 +14,25 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
     const [openModal, setOpenModal] = useState(false);
     const [selectedSong, setSelectedSong] = useState();
     const [disableAddButton, setDisableAddButton] = useState(true)
-
+    const [isLoading, setIsLoading] = useState(false)
     const [options, setOptions] = useState([]);
 
     const resetModal = () => {
         setSelectedSong(null)
         setDisableAddButton(true);
         setOpenModal(false)
+        setOptions([])
+        setIsLoading(false)
+    }
+
+    const handleOpenModal = () => {
+        resetModal()
+        setOpenModal(true)
     }
 
     const getData = (searchTerm) => {
         setOptions([])
-
+        setIsLoading(true)
         axios.get(`${import.meta.env.VITE_LAVALINK_URL}/v4/loadtracks`, {
             params: {
                 identifier: `ytsearch:${searchTerm}`,
@@ -46,6 +53,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
 
 
             setOptions(transformedSongs);
+            setIsLoading(false)
         });
     };
 
@@ -83,7 +91,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
 
     return (
         <Fragment>
-            <Button variant="outlined" color="neutral" onClick={() => setOpenModal(true)}>
+            <Button variant="outlined" color="neutral" onClick={handleOpenModal}>
                 Add new song
             </Button>
 
@@ -108,6 +116,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
                         onChange={handleOnChange}
                         style={{width: 500}}
                         filterOptions={(options) => options} // Disable filtering. IMPORTANT!
+                        noOptionsText={isLoading? 'Loading': 'No options'}
 
                     />
                     <DialogActions>
