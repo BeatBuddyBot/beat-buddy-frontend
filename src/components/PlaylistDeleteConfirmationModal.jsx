@@ -33,7 +33,7 @@ export default function PlaylistDeleteConfirmationModal({
                 </DialogTitle>
                 <Divider/>
                 <DialogContent>
-                    Are you sure you want to delete this playlist??
+                    Are you sure you want to delete this playlist?
                 </DialogContent>
                 <DialogActions>
                     <Button variant="solid" color="danger" onClick={handleDeletePlaylist}>
