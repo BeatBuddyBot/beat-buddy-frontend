@@ -27,12 +27,15 @@ import {ListItemDecorator} from "@mui/joy";
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import {red} from "@mui/material/colors";
 import PlaylistEditModal from "./PlaylistEditModal.jsx";
+import PlaylistDeleteConfirmationModal from "./PlaylistDeleteConfirmationModal.jsx";
 
 
 export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     const [playlist, setPlaylist] = useState(initialPlaylist)
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const fileInputRef = useRef(null);
+
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
 
     const getPlaylistSongsNumber = () => {
         return Array.isArray(playlist.songs) ? playlist.songs.length : playlist.length
@@ -44,14 +47,6 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                 ? playlist.songs.reduce((sum, song) => sum + song.duration, 0)
                 : playlist.duration
         )
-    }
-
-    const handleDeletePlaylist = () => {
-        ApiService
-            .deletePlaylist(playlist.id)
-            .then((data) => {
-                setPlaylists((prev) => prev.filter((p) => p.id !== playlist.id));
-            });
     }
 
     const handleClickUpload = () => {
@@ -156,10 +151,10 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                                             Upload new cover
                                         </Typography>
                                     </MenuItem>
-                                    <Divider sx={{ my: 0.5 }} />
-                                    <MenuItem onClick={handleDeletePlaylist}>
+                                    <Divider sx={{my: 0.5}}/>
+                                    <MenuItem onClick={() => setIsDeleteConfirmationModalOpen(true)}>
                                         <ListItemDecorator>
-                                            <DeleteForever sx={{ color: red[500] }} />
+                                            <DeleteForever sx={{color: red[500]}}/>
                                         </ListItemDecorator>{' '}
                                         <Typography>
                                             Delete
@@ -174,7 +169,7 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
             <input
                 type="file"
                 ref={fileInputRef}
-                style={{ display: 'none' }}
+                style={{display: 'none'}}
                 onChange={handleFileChange}
                 accept="image/*"
             />
@@ -183,6 +178,12 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                 onClose={() => setIsEditModalOpen(false)}
                 playlist={playlist}
                 setPlaylist={setPlaylist}
+            />
+            <PlaylistDeleteConfirmationModal
+                open={isDeleteConfirmationModalOpen}
+                setIsDeleteConfirmationModalOpen={setIsDeleteConfirmationModalOpen}
+                playlist={playlist}
+                setPlaylists={setPlaylists}
             />
             <CardContent>
                 <Typography
