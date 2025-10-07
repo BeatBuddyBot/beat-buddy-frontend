@@ -87,85 +87,160 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     };
 
     return (
-        <Card variant="outlined" sx={{height: '100%'}}>
-            <CardOverflow>
-                <AspectRatio ratio="1">
-                    <img
-                        src={playlist.cover_url ? playlist.cover_url : 'src/assets/playlist_default_cover.png'}
-                        loading="lazy"
-                    />
-                </AspectRatio>
-                <CardCover
-                    className="gradient-cover"
+        <>
+            <Card variant="outlined" sx={{height: '100%'}}>
+                <CardOverflow>
+                    <AspectRatio ratio="1">
+                        <img
+                            src={playlist.cover_url ? playlist.cover_url : 'src/assets/playlist_default_cover.png'}
+                            loading="lazy"
+                        />
+                    </AspectRatio>
+                    <CardCover
+                        className="gradient-cover"
+                        sx={{
+                            '&:hover, &:focus-within': {
+                                opacity: 1,
+                            },
+                            opacity: 0,
+                            transition: '0.1s ease-in',
+                            background:
+                                'linear-gradient(0deg, transparent 62%, rgba(0,0,0,0.4) 91.17%)',
+                        }}
+                    >
+                        <div>
+                            <Box
+                                sx={{
+                                    p: 2,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1.5,
+                                    flexGrow: 1,
+                                    alignSelf: 'flex-start',
+                                }}
+                            >
+                                <Dropdown>
+                                    <MenuButton
+                                        slots={{root: IconButton}}
+                                        slotProps={{
+                                            root: {
+                                                variant: "solid",
+                                                color: "neutral",
+                                                sx: {
+                                                    ml: "auto",
+                                                    bgcolor: "rgba(0 0 0 / 0.2)",
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        <MoreVert/>
+                                    </MenuButton>
+                                    <Menu size="sm">
+                                        <MenuItem onClick={() => setIsEditModalOpen(true)}>
+                                            <ListItemDecorator>
+                                                <Edit/>
+                                            </ListItemDecorator>{' '}
+                                            <Typography>
+                                                Edit
+                                            </Typography>
+                                        </MenuItem>
+                                        <MenuItem onClick={handleClickUpload}>
+                                            <ListItemDecorator>
+                                                <ImageOutlinedIcon/>
+                                            </ListItemDecorator>{' '}
+                                            <Typography>
+                                                Upload new cover
+                                            </Typography>
+                                        </MenuItem>
+                                        <Divider sx={{my: 0.5}}/>
+                                        <MenuItem onClick={() => setIsDeleteConfirmationModalOpen(true)}>
+                                            <ListItemDecorator>
+                                                <DeleteForever sx={{color: red[500]}}/>
+                                            </ListItemDecorator>{' '}
+                                            <Typography>
+                                                Delete
+                                            </Typography>
+                                        </MenuItem>
+                                    </Menu>
+                                </Dropdown>
+                            </Box>
+                        </div>
+                    </CardCover>
+                </CardOverflow>
+                <CardContent>
+                    <Typography
+                        level="title-md"
+                        gutterBottom
+                        sx={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical"
+                        }}>
+                        {playlist.title}
+                    </Typography>
+                    <Typography
+                        level="body-sm"
+                        variant="body2"
+                        sx={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical"
+                        }}
+                    >
+                        {playlist.description}
+                    </Typography>
+                </CardContent>
+                <CardActions
                     sx={{
-                        '&:hover, &:focus-within': {
-                            opacity: 1,
-                        },
-                        opacity: 0,
-                        transition: '0.1s ease-in',
-                        background:
-                            'linear-gradient(0deg, transparent 62%, rgba(0,0,0,0.4) 91.17%)',
+                        display: 'flex',
+                        justifyContent: 'space-between', // по краям
+                        alignItems: 'center',
                     }}
                 >
-                    <div>
-                        <Box
+                    <IconButton
+                        variant={playlist.is_favorite ? "solid" : "outlined"}
+                        color={playlist.is_favorite ? "danger" : "neutral"}
+                        onClick={toggleFavourite}
+                    >
+                        {playlist.is_favorite ? <Favorite/> : <FavoriteBorder/>}
+                    </IconButton>
+                    <PlaylistViewModal playlist={playlist} setPlaylist={setPlaylist}/>
+                    <IconButton variant={'solid'} color={'success'}>
+                        <PlaylistPlayOutlinedIcon/>
+                    </IconButton>
+                </CardActions>
+                <CardOverflow variant="soft">
+                    <Divider inset="context"/>
+                    <CardContent orientation="horizontal">
+                        <Typography
+                            level="body-xs"
                             sx={{
-                                p: 2,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1.5,
-                                flexGrow: 1,
-                                alignSelf: 'flex-start',
+                                overflow: "hidden",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical"
                             }}
                         >
-                            <Dropdown>
-                                <MenuButton
-                                    slots={{root: IconButton}}
-                                    slotProps={{
-                                        root: {
-                                            variant: "solid",
-                                            color: "neutral",
-                                            sx: {
-                                                ml: "auto",
-                                                bgcolor: "rgba(0 0 0 / 0.2)",
-                                            },
-                                        },
-                                    }}
-                                >
-                                    <MoreVert/>
-                                </MenuButton>
-                                <Menu size="sm">
-                                    <MenuItem onClick={() => setIsEditModalOpen(true)}>
-                                        <ListItemDecorator>
-                                            <Edit/>
-                                        </ListItemDecorator>{' '}
-                                        <Typography>
-                                            Edit
-                                        </Typography>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleClickUpload}>
-                                        <ListItemDecorator>
-                                            <ImageOutlinedIcon/>
-                                        </ListItemDecorator>{' '}
-                                        <Typography>
-                                            Upload new cover
-                                        </Typography>
-                                    </MenuItem>
-                                    <Divider sx={{my: 0.5}}/>
-                                    <MenuItem onClick={() => setIsDeleteConfirmationModalOpen(true)}>
-                                        <ListItemDecorator>
-                                            <DeleteForever sx={{color: red[500]}}/>
-                                        </ListItemDecorator>{' '}
-                                        <Typography>
-                                            Delete
-                                        </Typography>
-                                    </MenuItem>
-                                </Menu>
-                            </Dropdown>
-                        </Box>
-                    </div>
-                </CardCover>
-            </CardOverflow>
+                            Songs number: {getPlaylistSongsNumber()}
+                        </Typography>
+                        <Divider orientation="vertical"/>
+                        <Typography
+                            level="body-xs"
+                            sx={{
+                                overflow: "hidden",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical"
+                            }}
+                        >
+                            Duration: {getPlaylistDuration()}
+                        </Typography>
+                    </CardContent>
+                </CardOverflow>
+            </Card>
+
             <input
                 type="file"
                 ref={fileInputRef}
@@ -185,78 +260,6 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                 playlist={playlist}
                 setPlaylists={setPlaylists}
             />
-            <CardContent>
-                <Typography
-                    level="title-md"
-                    gutterBottom
-                    sx={{
-                        overflow: "hidden",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical"
-                    }}>
-                    {playlist.title}
-                </Typography>
-                <Typography
-                    level="body-sm"
-                    variant="body2"
-                    sx={{
-                        overflow: "hidden",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical"
-                    }}
-                >
-                    {playlist.description}
-                </Typography>
-            </CardContent>
-            <CardActions
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between', // по краям
-                    alignItems: 'center',
-                }}
-            >
-                <IconButton
-                    variant={playlist.is_favorite ? "solid" : "outlined"}
-                    color={playlist.is_favorite ? "danger" : "neutral"}
-                    onClick={toggleFavourite}
-                >
-                    {playlist.is_favorite ? <Favorite/> : <FavoriteBorder/>}
-                </IconButton>
-                <PlaylistViewModal playlist={playlist} setPlaylist={setPlaylist}/>
-                <IconButton variant={'solid'} color={'success'}>
-                    <PlaylistPlayOutlinedIcon/>
-                </IconButton>
-            </CardActions>
-            <CardOverflow variant="soft">
-                <Divider inset="context"/>
-                <CardContent orientation="horizontal">
-                    <Typography
-                        level="body-xs"
-                        sx={{
-                            overflow: "hidden",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical"
-                        }}
-                    >
-                        Songs number: {getPlaylistSongsNumber()}
-                    </Typography>
-                    <Divider orientation="vertical"/>
-                    <Typography
-                        level="body-xs"
-                        sx={{
-                            overflow: "hidden",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical"
-                        }}
-                    >
-                        Duration: {getPlaylistDuration()}
-                    </Typography>
-                </CardContent>
-            </CardOverflow>
-        </Card>
+        </>
     );
 }
