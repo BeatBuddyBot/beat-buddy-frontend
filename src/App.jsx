@@ -7,6 +7,7 @@ import {THEME_ID as MATERIAL_THEME_ID, ThemeProvider,} from '@mui/material/style
 import {CssVarsProvider as JoyCssVarsProvider} from '@mui/joy/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import {materialTheme} from "./theme.js";
+import MusicPlayerBar from "./scenes/global/MusicPlayerBar.jsx";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                             <Route path="/stats" element={<Stats/>}/>
                         </Routes>
                     </main>
+                    <MusicPlayerBar />
                 </div>
             </JoyCssVarsProvider>
         </ThemeProvider>

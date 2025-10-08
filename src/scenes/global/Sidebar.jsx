@@ -77,8 +77,8 @@ const Sidebar = () => {
                             setSelected={setSelected}
                         />
                         <Item
-                            title="Player"
-                            to="/player"
+                            title="Queue"
+                            to="/queue"
                             icon={<QueueMusicOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
