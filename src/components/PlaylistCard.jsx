@@ -28,6 +28,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import {red} from "@mui/material/colors";
 import PlaylistEditModal from "./PlaylistEditModal.jsx";
 import PlaylistDeleteConfirmationModal from "./PlaylistDeleteConfirmationModal.jsx";
+import {useSnackbar} from "notistack";
 
 
 export default function PlaylistCard({initialPlaylist, setPlaylists}) {
@@ -36,6 +37,9 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
+
+    const {enqueueSnackbar} = useSnackbar();
+
 
     const getPlaylistSongsNumber = () => {
         return Array.isArray(playlist.songs) ? playlist.songs.length : playlist.length
@@ -68,7 +72,10 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                         ...prev,
                         cover_url: data.cover_url,
                     }));
-                });
+                })
+                .catch(() => {
+                    enqueueSnackbar('Failed to upload new cover', {variant: 'error'})
+                })
             event.target.value = '';
         };
 
@@ -78,11 +85,14 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     const toggleFavourite = () => {
         ApiService
             .patchPlaylist(playlist.id, {'is_favorite': !playlist.is_favorite})
-            .then((data) => {
+            .then(() => {
                 setPlaylist(prev => ({
                     ...prev,
                     is_favorite: !prev.is_favorite,
                 }));
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed request', {variant: 'error'})
             });
     };
 

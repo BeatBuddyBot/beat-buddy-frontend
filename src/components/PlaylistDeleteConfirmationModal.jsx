@@ -24,8 +24,11 @@ export default function PlaylistDeleteConfirmationModal({
             .deletePlaylist(playlist.id)
             .then(() => {
                 setPlaylists((prev) => prev.filter((p) => p.id !== playlist.id));
-                enqueueSnackbar('Playlist deleted', { variant: 'info' });
-            });
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to delete playlist', { variant: 'error' })
+            })
+
     }
 
     return (

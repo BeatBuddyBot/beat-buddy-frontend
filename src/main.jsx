@@ -9,7 +9,7 @@ import {SnackbarProvider} from "notistack";
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
-            <SnackbarProvider hideIconVariant
+            <SnackbarProvider // hideIconVariant
                 maxSnack={3}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 autoHideDuration={3000}

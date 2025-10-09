@@ -8,6 +8,7 @@ import ApiService from "../services/ApiService.js";
 import ModalClose from "@mui/joy/ModalClose";
 import axios from "axios";
 import {debounce} from "lodash";
+import {useSnackbar} from "notistack";
 
 
 export default function LavalinkModal({playlist_id, addSongToTable}) {
@@ -16,6 +17,8 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
     const [disableAddButton, setDisableAddButton] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const [options, setOptions] = useState([]);
+
+    const {enqueueSnackbar} = useSnackbar();
 
     const resetModal = () => {
         setSelectedSong(null)
@@ -85,7 +88,10 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
                 .then((data) => {
                     addSongToTable(data)
                     resetModal()
-                });
+                })
+                .catch(() => {
+                    enqueueSnackbar('Failed to add new song', {variant: 'error'})
+                })
         }
     }
 

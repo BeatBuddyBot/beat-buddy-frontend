@@ -17,7 +17,10 @@ const Playlists = () => {
             .getPlaylists()
             .then((data) => {
                 setPlaylists(data);
-            });
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to load playlists', { variant: 'error' })
+            })
     }, []);
 
     const handleCreatePlaylist = () => {
@@ -29,7 +32,9 @@ const Playlists = () => {
                     const others = prev.filter(p => !p.is_favorite);
                     return [...favorites, data, ...others];
                 });
-                enqueueSnackbar('Playlist created', { variant: 'success' });
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to create playlist',  { variant: 'error' })
             });
     }
 
