@@ -4,35 +4,30 @@ class ApiService {
     constructor(baseURL) {
         this.client = axios.create({
             baseURL,
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json",},
         });
+
+        this.client.interceptors.response.use(
+            res => res.data,
+            err => Promise.reject(err)
+        );
     }
 
-    getPlaylists = () =>
-        this.client.get("/playlists/").then(res => res.data);
+    get(url, params) { return this.client.get(url, { params }); }
+    post(url, data) { return this.client.post(url, data); }
+    put(url, data) { return this.client.put(url, data); }
+    patch(url, data) { return this.client.patch(url, data); }
+    delete(url) { return this.client.delete(url); }
 
-    getPlaylist = (id) =>
-        this.client.get(`/playlists/${id}/`).then(res => res.data);
+    getPlaylists() { return this.get("/playlists/"); }
+    getPlaylist(id) { return this.get(`/playlists/${id}/`); }
+    createPlaylist(data) { return this.post("/playlists/", data); }
+    patchPlaylist(id, data) { return this.patch(`/playlists/${id}/`, data); }
+    deletePlaylist(id) { return this.delete(`/playlists/${id}/`); }
 
-    createPlaylist = (data) =>
-        this.client.post('/playlists/', data).then(res => res.data);
-
-    deletePlaylist = (id) =>
-        this.client.delete(`/playlists/${id}/`).then(res => res.data);
-
-    patchPlaylist = (id, data) =>
-        this.client.patch(`/playlists/${id}/`, data).then(res => res.data);
-
-    createSong = (data) =>
-        this.client.post('/songs/', data).then(res => res.data);
-
-    patchSong = (id, data) =>
-        this.client.patch(`/songs/${id}/`, data).then(res => res.data);
-
-    deleteSong = (id) =>
-        this.client.delete(`/songs/${id}/`).then(res => res.data);
+    createSong(data) { return this.post("/songs/", data); }
+    patchSong(id, data) { return this.patch(`/songs/${id}/`, data); }
+    deleteSong(id) { return this.delete(`/songs/${id}/`); }
 }
 
 export default new ApiService(

@@ -195,7 +195,7 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                 <CardActions
                     sx={{
                         display: 'flex',
-                        justifyContent: 'space-between', // по краям
+                        justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
                 >
