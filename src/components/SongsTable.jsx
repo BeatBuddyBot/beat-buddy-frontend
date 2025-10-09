@@ -6,12 +6,14 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import ApiService from "../services/ApiService.js";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import {Button} from "@mui/material";
-import {myAltDarkAgGridTheme, myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
+import {myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
+import {useSnackbar} from "notistack";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
 const SongsTable = ({songs, setPlaylist}) => {
+    const {enqueueSnackbar} = useSnackbar();
 
     const handleRemoveSong = (params) => {
         const idToRemove = params.data.id;
@@ -23,6 +25,9 @@ const SongsTable = ({songs, setPlaylist}) => {
                     songs: prev.songs.filter((song) => song.id !== idToRemove),
                 }));
 
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to delete song', { variant: 'error' })
             });
     };
 
@@ -68,6 +73,9 @@ const SongsTable = ({songs, setPlaylist}) => {
                     position: e.node.rowIndex
                 }
             )
+            .catch(() => {
+                enqueueSnackbar('Failed to update song position', { variant: 'error' });
+            });
     }
 
     return (
@@ -84,7 +92,7 @@ const SongsTable = ({songs, setPlaylist}) => {
                     lockPosition: true,
                     flex: 1
                 }}
-                localeText={{ noRowsToShow: 'No songs to display.' }}
+                localeText={{noRowsToShow: 'No songs to display.'}}
 
             />
         </div>

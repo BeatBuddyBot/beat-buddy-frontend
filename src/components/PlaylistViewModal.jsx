@@ -9,9 +9,12 @@ import ApiService from "../services/ApiService.js";
 import LavalinkModal from "./LavalinkModal.jsx";
 import {Box} from "@mui/material";
 import PlaylistPlayOutlinedIcon from "@mui/icons-material/PlaylistPlayOutlined";
+import {useSnackbar} from "notistack";
 
 export default function PlaylistViewModal({playlist, setPlaylist}) {
     const [open, setOpen] = React.useState(false);
+    const {enqueueSnackbar} = useSnackbar();
+
 
     const addSongToTable = (song) => {
         setPlaylist(prev => ({
@@ -29,7 +32,11 @@ export default function PlaylistViewModal({playlist, setPlaylist}) {
                 .then((data) => {
                     setPlaylist(data);
                     setOpen(true);
-                });
+                })
+                .catch(() => {
+                    enqueueSnackbar('Failed to retrieve playlist',  { variant: 'error' })
+                })
+            ;
         }
     };
     return (
@@ -58,11 +65,18 @@ export default function PlaylistViewModal({playlist, setPlaylist}) {
                         id="modal-title"
                         level="h3"
                         textColor="inherit"
-                        sx={{fontWeight: 'lg', mb: 1}}
+                        sx={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 1,
+                            WebkitBoxOrient: "vertical",
+                            fontWeight: 'lg',
+                            mb: 1
+                        }}
                     >
                         {playlist.title}
                     </Typography>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" >
+                    <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
                         <Typography
                             component="p"
                             id="modal-title"

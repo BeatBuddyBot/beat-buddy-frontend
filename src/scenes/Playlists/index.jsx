@@ -5,16 +5,22 @@ import PlaylistCard from "../../components/PlaylistCard.jsx";
 import ApiService from "../../services/ApiService.js";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Button from "@mui/joy/Button";
+import { useSnackbar } from 'notistack';
 
 const Playlists = () => {
     const [playlists, setPlaylists] = useState([]);
+    const { enqueueSnackbar } = useSnackbar();
+
 
     useEffect(() => {
         ApiService
             .getPlaylists()
             .then((data) => {
                 setPlaylists(data);
-            });
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to load playlists', { variant: 'error' })
+            })
     }, []);
 
     const handleCreatePlaylist = () => {
@@ -26,6 +32,9 @@ const Playlists = () => {
                     const others = prev.filter(p => !p.is_favorite);
                     return [...favorites, data, ...others];
                 });
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to create playlist',  { variant: 'error' })
             });
     }
 

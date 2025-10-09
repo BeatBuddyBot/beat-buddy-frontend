@@ -10,10 +10,12 @@ import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
 import {Textarea} from "@mui/joy";
 import ApiService from "../services/ApiService.js";
+import {useSnackbar} from "notistack";
 
-export default function PlaylistEditModal({ open, onClose, playlist, setPlaylist }) {
+export default function PlaylistEditModal({open, onClose, playlist, setPlaylist}) {
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
+    const {enqueueSnackbar} = useSnackbar();
 
     React.useEffect(() => {
         if (playlist) {
@@ -35,43 +37,46 @@ export default function PlaylistEditModal({ open, onClose, playlist, setPlaylist
                     ...data,
                 }));
                 onClose();
-            });
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to edit playlist', {variant: 'error'})
+            })
     }
 
     return (
-            <Modal open={open} onClose={onClose} >
-                <ModalDialog
-                    sx={{
-                        width: '500px',
-                        maxWidth: '95vw',
-                    }}
+        <Modal open={open} onClose={onClose}>
+            <ModalDialog
+                sx={{
+                    width: '500px',
+                    maxWidth: '95vw',
+                }}
+            >
+                <DialogTitle>Edit Playlist</DialogTitle>
+                <DialogContent>Update playlist information below:</DialogContent>
+                <form
+                    onSubmit={handleSubmitForm}
                 >
-                    <DialogTitle>Edit Playlist</DialogTitle>
-                    <DialogContent>Update playlist information below:</DialogContent>
-                    <form
-                        onSubmit={handleSubmitForm}
-                    >
-                        <Stack spacing={2}>
-                            <FormControl>
-                                <FormLabel>Title</FormLabel>
-                                <Input
-                                    required
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>Description</FormLabel>
-                                <Textarea
-                                    minRows={2}
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </FormControl>
-                            <Button type="submit">Submit</Button>
-                        </Stack>
-                    </form>
-                </ModalDialog>
-            </Modal>
+                    <Stack spacing={2}>
+                        <FormControl>
+                            <FormLabel>Title</FormLabel>
+                            <Input
+                                required
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Description</FormLabel>
+                            <Textarea
+                                minRows={2}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </FormControl>
+                        <Button type="submit">Submit</Button>
+                    </Stack>
+                </form>
+            </ModalDialog>
+        </Modal>
     );
 }
