@@ -8,6 +8,7 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import ApiService from "../services/ApiService.js";
+import {useSnackbar} from "notistack";
 
 export default function PlaylistDeleteConfirmationModal({
                                                             open,
@@ -16,11 +17,14 @@ export default function PlaylistDeleteConfirmationModal({
                                                             setPlaylists
                                                         }) {
 
+    const { enqueueSnackbar } = useSnackbar();
+
     const handleDeletePlaylist = () => {
         ApiService
             .deletePlaylist(playlist.id)
-            .then((data) => {
+            .then(() => {
                 setPlaylists((prev) => prev.filter((p) => p.id !== playlist.id));
+                enqueueSnackbar('Playlist deleted', { variant: 'info' });
             });
     }
 
