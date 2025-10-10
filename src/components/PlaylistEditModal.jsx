@@ -63,6 +63,7 @@ export default function PlaylistEditModal({open, onClose, playlist, setPlaylist}
                                 required
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
+                                slotProps={{ input: { maxLength: 70 } }}
                             />
                         </FormControl>
                         <FormControl>
@@ -71,6 +72,7 @@ export default function PlaylistEditModal({open, onClose, playlist, setPlaylist}
                                 minRows={2}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                slotProps={{ textarea: { maxLength: 500 } }}
                             />
                         </FormControl>
                         <Button type="submit">Submit</Button>
