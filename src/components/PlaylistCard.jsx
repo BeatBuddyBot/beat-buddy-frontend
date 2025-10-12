@@ -29,7 +29,7 @@ import {red} from "@mui/material/colors";
 import PlaylistEditModal from "./PlaylistEditModal.jsx";
 import PlaylistDeleteConfirmationModal from "./PlaylistDeleteConfirmationModal.jsx";
 import {useSnackbar} from "notistack";
-
+import defaultCover from '../assets/playlist_default_cover.png';
 
 export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     const [playlist, setPlaylist] = useState(initialPlaylist)
@@ -102,7 +102,7 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                 <CardOverflow>
                     <AspectRatio ratio="1">
                         <img
-                            src={playlist.cover_url ? playlist.cover_url : 'src/assets/playlist_default_cover.png'}
+                            src={playlist.cover_url ? playlist.cover_url : defaultCover}
                             loading="lazy"
                         />
                     </AspectRatio>

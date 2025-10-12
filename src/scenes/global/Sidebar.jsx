@@ -8,6 +8,7 @@ import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import QueueMusicOutlinedIcon from '@mui/icons-material/QueueMusicOutlined';
 import {colors} from "@mui/joy";
+import sidebarBg from '../../assets/sidebar-bg.jpg';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     return (
@@ -40,7 +41,7 @@ const Sidebar = () => {
                 },
             }}
         >
-            <ProSidebar collapsed={isCollapsed} image={'src/assets/sidebar-bg.jpg'}>
+            <ProSidebar collapsed={isCollapsed} image={sidebarBg}>
                 <Menu iconShape="square">
                     <MenuItem
                         onClick={() => setIsCollapsed(!isCollapsed)}
