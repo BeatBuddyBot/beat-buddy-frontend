@@ -38,7 +38,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
         setIsLoading(true)
         axios.get(`${import.meta.env.VITE_LAVALINK_URL}/v4/loadtracks`, {
             params: {
-                identifier: `ytsearch:${searchTerm}`,
+                identifier: `scsearch:${searchTerm}`,
             },
             headers: {
                 "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export default function LavalinkModal({playlist_id, addSongToTable}) {
                 label: song.info.title.length <= 60 ? song.info.title : song.info.title.slice(0, 60) + "...",
                 title: song.info.title,
                 url: song.info.uri,
-                duration: song.info.length / 1000,
+                duration: Math.round(song.info.length / 1000),
                 playlist_id: playlist_id
             }));
 

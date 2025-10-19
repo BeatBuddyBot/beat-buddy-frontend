@@ -151,7 +151,7 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                                                 <Edit/>
                                             </ListItemDecorator>{' '}
                                             <Typography>
-                                                Edit
+                                                Edit details
                                             </Typography>
                                         </MenuItem>
                                         <MenuItem onClick={handleClickUpload}>

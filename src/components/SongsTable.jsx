@@ -4,7 +4,7 @@ import {AllCommunityModule, ModuleRegistry} from 'ag-grid-community';
 import {formatDuration} from "../utils/formatters.js";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import ApiService from "../services/ApiService.js";
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import {Button} from "@mui/material";
 import {myDarkAgGridTheme} from "../constants/myAgGridThemes.js";
 import {useSnackbar} from "notistack";
@@ -48,7 +48,7 @@ const SongsTable = ({songs, setPlaylist}) => {
             headerName: "Link",
             cellRenderer: (params) => (
                 <Button sx={{border: 0}} color='neutral' size="small" href={params.value} target={'_blank'}>
-                    <YouTubeIcon/>
+                    <OpenInNewOutlinedIcon/>
                 </Button>
             ),
             sortable: false,
