@@ -54,7 +54,7 @@ const Playlists = () => {
             onClick={handleSkip}
             sx={{ mr: '10px' }}
           >
-               <SkipNextOutlinedIcon sx={{ mr: '10px' }} />
+            <SkipNextOutlinedIcon sx={{ mr: '10px' }} />
             Skip
           </Button>
 
