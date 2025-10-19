@@ -95,6 +95,7 @@ const SongsTable = ({playlist, setPlaylist}) => {
                 rowData={playlist.songs}
                 columnDefs={colDefs}
                 rowDragManaged
+                suppressMoveWhenRowDragging
                 onRowDragEnd={onRowDragEnd}
                 defaultColDef={{
                     resizable: false,
