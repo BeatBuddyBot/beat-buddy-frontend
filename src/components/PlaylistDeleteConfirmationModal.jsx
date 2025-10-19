@@ -7,50 +7,51 @@ import DialogActions from '@mui/joy/DialogActions';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import ApiService from "../services/ApiService.js";
-import {useSnackbar} from "notistack";
+import ApiService from '../services/ApiService.js';
+import { useSnackbar } from 'notistack';
 
 export default function PlaylistDeleteConfirmationModal({
-                                                            open,
-                                                            setIsDeleteConfirmationModalOpen,
-                                                            playlist,
-                                                            setPlaylists
-                                                        }) {
+  open,
+  setIsDeleteConfirmationModalOpen,
+  playlist,
+  setPlaylists,
+}) {
+  const { enqueueSnackbar } = useSnackbar();
 
-    const { enqueueSnackbar } = useSnackbar();
+  const handleDeletePlaylist = () => {
+    ApiService.deletePlaylist(playlist.id)
+      .then(() => {
+        setPlaylists((prev) => prev.filter((p) => p.id !== playlist.id));
+      })
+      .catch(() => {
+        enqueueSnackbar('Failed to delete playlist', { variant: 'error' });
+      });
+  };
 
-    const handleDeletePlaylist = () => {
-        ApiService
-            .deletePlaylist(playlist.id)
-            .then(() => {
-                setPlaylists((prev) => prev.filter((p) => p.id !== playlist.id));
-            })
-            .catch(() => {
-                enqueueSnackbar('Failed to delete playlist', { variant: 'error' })
-            })
-
-    }
-
-    return (
-        <Modal open={open} onClose={() => setIsDeleteConfirmationModalOpen(false)}>
-            <ModalDialog variant="outlined" role="alertdialog">
-                <DialogTitle>
-                    <WarningRoundedIcon/>
-                    Confirmation
-                </DialogTitle>
-                <Divider/>
-                <DialogContent>
-                    Are you sure you want to delete this playlist?
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="solid" color="danger" onClick={handleDeletePlaylist}>
-                        Delete
-                    </Button>
-                    <Button variant="plain" color="neutral" onClick={() => setIsDeleteConfirmationModalOpen(false)}>
-                        Cancel
-                    </Button>
-                </DialogActions>
-            </ModalDialog>
-        </Modal>
-    );
+  return (
+    <Modal open={open} onClose={() => setIsDeleteConfirmationModalOpen(false)}>
+      <ModalDialog variant="outlined" role="alertdialog">
+        <DialogTitle>
+          <WarningRoundedIcon />
+          Confirmation
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+          Are you sure you want to delete this playlist?
+        </DialogContent>
+        <DialogActions>
+          <Button variant="solid" color="danger" onClick={handleDeletePlaylist}>
+            Delete
+          </Button>
+          <Button
+            variant="plain"
+            color="neutral"
+            onClick={() => setIsDeleteConfirmationModalOpen(false)}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </ModalDialog>
+    </Modal>
+  );
 }
