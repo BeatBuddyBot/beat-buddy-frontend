@@ -1,15 +1,15 @@
 import React from 'react';
-import {Box} from "@mui/material";
-import Header from "../../components/Header.jsx";
+import { Box } from '@mui/material';
+import Header from '../../components/Header.jsx';
 
 const Stats = () => {
-    return (
-        <Box m="20px">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="STATS" subtitle="Track your listening history" />
-            </Box>
-        </Box>
-    );
+  return (
+    <Box m="20px">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="STATS" subtitle="Track your listening history" />
+      </Box>
+    </Box>
+  );
 };
 
 export default Stats;

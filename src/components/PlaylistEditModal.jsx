@@ -8,77 +8,79 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
-import {Textarea} from "@mui/joy";
-import ApiService from "../services/ApiService.js";
-import {useSnackbar} from "notistack";
+import { Textarea } from '@mui/joy';
+import ApiService from '../services/ApiService.js';
+import { useSnackbar } from 'notistack';
 
-export default function PlaylistEditModal({open, onClose, playlist, setPlaylist}) {
-    const [title, setTitle] = React.useState('');
-    const [description, setDescription] = React.useState('');
-    const {enqueueSnackbar} = useSnackbar();
+export default function PlaylistEditModal({
+  open,
+  onClose,
+  playlist,
+  setPlaylist,
+}) {
+  const [title, setTitle] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
-    React.useEffect(() => {
-        if (playlist) {
-            setTitle(playlist.title);
-            setDescription(playlist.description || '');
-        }
-    }, [playlist, open]);
-
-    const handleSubmitForm = (event) => {
-        event.preventDefault();
-        ApiService
-            .patchPlaylist(playlist.id, {
-                title: title,
-                description: description,
-            })
-            .then((data) => {
-                setPlaylist(prev => ({
-                    ...prev,
-                    ...data,
-                }));
-                onClose();
-            })
-            .catch(() => {
-                enqueueSnackbar('Failed to edit playlist', {variant: 'error'})
-            })
+  React.useEffect(() => {
+    if (playlist) {
+      setTitle(playlist.title);
+      setDescription(playlist.description || '');
     }
+  }, [playlist, open]);
 
-    return (
-        <Modal open={open} onClose={onClose}>
-            <ModalDialog
-                sx={{
-                    width: '500px',
-                    maxWidth: '95vw',
-                }}
-            >
-                <DialogTitle>Edit Playlist</DialogTitle>
-                <DialogContent>Update playlist information below:</DialogContent>
-                <form
-                    onSubmit={handleSubmitForm}
-                >
-                    <Stack spacing={2}>
-                        <FormControl>
-                            <FormLabel>Title</FormLabel>
-                            <Input
-                                required
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                slotProps={{ input: { maxLength: 70 } }}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Description</FormLabel>
-                            <Textarea
-                                minRows={2}
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                slotProps={{ textarea: { maxLength: 500 } }}
-                            />
-                        </FormControl>
-                        <Button type="submit">Submit</Button>
-                    </Stack>
-                </form>
-            </ModalDialog>
-        </Modal>
-    );
+  const handleSubmitForm = (event) => {
+    event.preventDefault();
+    ApiService.patchPlaylist(playlist.id, {
+      title: title,
+      description: description,
+    })
+      .then((data) => {
+        setPlaylist((prev) => ({
+          ...prev,
+          ...data,
+        }));
+        onClose();
+      })
+      .catch(() => {
+        enqueueSnackbar('Failed to edit playlist', { variant: 'error' });
+      });
+  };
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      <ModalDialog
+        sx={{
+          width: '500px',
+          maxWidth: '95vw',
+        }}
+      >
+        <DialogTitle>Edit Playlist</DialogTitle>
+        <DialogContent>Update playlist information below:</DialogContent>
+        <form onSubmit={handleSubmitForm}>
+          <Stack spacing={2}>
+            <FormControl>
+              <FormLabel>Title</FormLabel>
+              <Input
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                slotProps={{ input: { maxLength: 70 } }}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Description</FormLabel>
+              <Textarea
+                minRows={2}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                slotProps={{ textarea: { maxLength: 500 } }}
+              />
+            </FormControl>
+            <Button type="submit">Submit</Button>
+          </Stack>
+        </form>
+      </ModalDialog>
+    </Modal>
+  );
 }
