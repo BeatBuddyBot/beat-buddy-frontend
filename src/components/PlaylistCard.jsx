@@ -34,11 +34,25 @@ import defaultCover from '../assets/playlist_default_cover.png';
 export default function PlaylistCard({initialPlaylist, setPlaylists}) {
     const [playlist, setPlaylist] = useState(initialPlaylist)
     const fileInputRef = useRef(null);
-
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
-
     const {enqueueSnackbar} = useSnackbar();
+    const [playLoading, setPlayLoading] = useState(false)
+
+    const handleAddPlaylist = () => {
+        setPlayLoading(true);
+        ApiService
+            .addPlaylist({playlist_id: playlist.id})
+            .then(() => {
+                setTimeout(() => {
+                    setPlayLoading(false);
+                }, 500);
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to start playlist', {variant: 'error'})
+                setPlayLoading(false);
+            })
+    };
 
 
     const getPlaylistSongsNumber = () => {
@@ -217,7 +231,12 @@ export default function PlaylistCard({initialPlaylist, setPlaylists}) {
                         {playlist.is_favorite ? <Favorite/> : <FavoriteBorder/>}
                     </IconButton>
                     <PlaylistViewModal playlist={playlist} setPlaylist={setPlaylist}/>
-                    <IconButton variant={'solid'} color={'success'}>
+                    <IconButton
+                        variant={'solid'}
+                        color={'success'}
+                        onClick={handleAddPlaylist}
+                        loading={playLoading}
+                    >
                         <PlaylistPlayOutlinedIcon/>
                     </IconButton>
                 </CardActions>

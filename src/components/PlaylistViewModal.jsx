@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
@@ -14,6 +15,24 @@ import {useSnackbar} from "notistack";
 export default function PlaylistViewModal({playlist, setPlaylist}) {
     const [open, setOpen] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
+    const [playLoading, setPlayLoading] = useState(false)
+
+    const handleAddPlaylist = () => {
+        setPlayLoading(true);
+        ApiService
+            .addPlaylist({playlist_id: playlist.id})
+            .then(() => {
+                setTimeout(() => {
+                    setPlayLoading(false);
+                    setOpen(false);
+                }, 500);
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to start playlist', {variant: 'error'})
+                setPlayLoading(false);
+                setOpen(false);
+            })
+    };
 
 
     const addSongToTable = (song) => {
@@ -34,7 +53,7 @@ export default function PlaylistViewModal({playlist, setPlaylist}) {
                     setOpen(true);
                 })
                 .catch(() => {
-                    enqueueSnackbar('Failed to retrieve playlist',  { variant: 'error' })
+                    enqueueSnackbar('Failed to retrieve playlist', {variant: 'error'})
                 })
             ;
         }
@@ -89,11 +108,17 @@ export default function PlaylistViewModal({playlist, setPlaylist}) {
                     </Box>
                     <Box display="flex" justifyContent="flex-end" alignItems="end" width="100%" sx={{mb: 1}} gap={2}>
                         <LavalinkModal playlist_id={playlist.id} addSongToTable={addSongToTable}/>
-                        <Button variant="solid" color="success" startDecorator={<PlaylistPlayOutlinedIcon/>}>
+                        <Button
+                            variant="solid"
+                            color="success"
+                            startDecorator={<PlaylistPlayOutlinedIcon/>}
+                            loading={playLoading}
+                            onClick={handleAddPlaylist}
+                        >
                             Play
                         </Button>
                     </Box>
-                    <SongsTable songs={playlist.songs} setPlaylist={setPlaylist}/>
+                    <SongsTable playlist={playlist} setPlaylist={setPlaylist}/>
                 </Sheet>
             </Modal>
         </React.Fragment>

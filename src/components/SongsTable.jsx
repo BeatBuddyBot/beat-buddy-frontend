@@ -12,7 +12,7 @@ import {useSnackbar} from "notistack";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
-const SongsTable = ({songs, setPlaylist}) => {
+const SongsTable = ({playlist, setPlaylist}) => {
     const {enqueueSnackbar} = useSnackbar();
 
     const handleRemoveSong = (params) => {
@@ -73,6 +73,16 @@ const SongsTable = ({songs, setPlaylist}) => {
                     position: e.node.rowIndex
                 }
             )
+            .then(() => {
+                setPlaylist((prev) => {
+                    const songs = [...prev.songs];
+                    const draggedSongIndex = songs.findIndex(song => song.id === e.node.data.id);
+                    const [draggedSong] = songs.splice(draggedSongIndex, 1); // удаляем перетаскиваемую песню
+                    songs.splice(e.node.rowIndex, 0, draggedSong); // вставляем на новое место
+                    return { ...prev, songs };
+                });
+
+            })
             .catch(() => {
                 enqueueSnackbar('Failed to update song position', { variant: 'error' });
             });
@@ -82,7 +92,7 @@ const SongsTable = ({songs, setPlaylist}) => {
         <div style={{height: "500px", width: "100%"}}>
             <AgGridReact
                 theme={myDarkAgGridTheme}
-                rowData={songs}
+                rowData={playlist.songs}
                 columnDefs={colDefs}
                 rowDragManaged
                 onRowDragEnd={onRowDragEnd}
