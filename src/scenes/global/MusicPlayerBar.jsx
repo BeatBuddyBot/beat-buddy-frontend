@@ -15,6 +15,31 @@ import { useSnackbar } from 'notistack';
 export default function MusicPlayerBar() {
   const { enqueueSnackbar } = useSnackbar();
 
+  const [repeat, setRepeat] = useState("disabled");
+  const [loadingRepeat, setLoadingRepeat] = useState(false);
+
+  const repeatIcons = {
+    disabled: <Repeat />,
+    repeat_all: <Repeat color={'success'} />,
+    repeat_one: <RepeatOneIcon color={'success'} />,
+  };
+
+  const repeatOrder = ["disabled", "repeat_all", "repeat_one"];
+
+  const toggleRepeat = () => {
+    setLoadingRepeat(true);
+    setDisabled(true);
+
+    setTimeout(() => {
+      const currentIndex = repeatOrder.indexOf(repeat);
+      setRepeat(repeatOrder[(currentIndex + 1) % repeatOrder.length]);
+      setLoadingRepeat(false);
+      setDisabled(false);
+    }, 500);
+
+
+  };
+
   const [paused, setPaused] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -96,10 +121,13 @@ export default function MusicPlayerBar() {
         <SkipNext />
       </IconButton>
 
-      <IconButton disabled={disabled}>
-        <Repeat />
-        {/*<Repeat color={'success'} />*/}
-        {/*<RepeatOneIcon color={'success'} />*/}
+      <IconButton
+        disabled={disabled}
+        onClick={() => toggleRepeat()}
+        variant={repeat !== 'disabled' ? 'soft' : 'plain'}
+        loading={loadingRepeat}
+      >
+        {repeatIcons[repeat]}
       </IconButton>
 
       <Box sx={{ display: 'flex', alignItems: 'center', width: 300, ml: 3 }}>
