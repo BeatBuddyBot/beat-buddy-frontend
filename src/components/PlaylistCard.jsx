@@ -11,7 +11,6 @@ import Favorite from '@mui/icons-material/Favorite';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import { formatDuration } from '../utils/formatters.js';
 import CardActions from '@mui/joy/CardActions';
-import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
 import PlaylistViewModal from './PlaylistViewModal.jsx';
 import ApiService from '../services/ApiService.js';
 import Box from '@mui/joy/Box';
@@ -30,6 +29,7 @@ import PlaylistEditModal from './PlaylistEditModal.jsx';
 import PlaylistDeleteConfirmationModal from './PlaylistDeleteConfirmationModal.jsx';
 import { useSnackbar } from 'notistack';
 import defaultCover from '../assets/playlist_default_cover.png';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 export default function PlaylistCard({ initialPlaylist, setPlaylists }) {
   const [playlist, setPlaylist] = useState(initialPlaylist);
@@ -235,7 +235,7 @@ export default function PlaylistCard({ initialPlaylist, setPlaylists }) {
             onClick={handleAddPlaylist}
             loading={playLoading}
           >
-            <PlaylistPlayOutlinedIcon />
+            <PlayArrowIcon />
           </IconButton>
         </CardActions>
         <CardOverflow variant="soft">
