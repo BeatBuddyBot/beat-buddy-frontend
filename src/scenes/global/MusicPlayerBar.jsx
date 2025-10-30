@@ -9,31 +9,32 @@ import {
   SkipPrevious,
 } from '@mui/icons-material';
 import RepeatOneIcon from '@mui/icons-material/RepeatOne';
+import ApiService from '../../services/ApiService.js';
+import { useSnackbar } from 'notistack';
 
 export default function MusicPlayerBar() {
+  const { enqueueSnackbar } = useSnackbar();
+
   const [paused, setPaused] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
-  const [nextSongLoading, setNextSongLoading] = useState(false);
-  const [prevSongLoading, setPrevSongLoading] = useState(false);
+  const [loadingPlayPause, setLoadingPlayPause] = useState(false);
 
-  const handleNextSong = () => {
-    setNextSongLoading(true);
-    setLoading(true);
+  const togglePlayPause = () => {
+    setLoadingPlayPause(true);
+    setDisabled(true);
+
+    ApiService.pause().catch(() => {
+      enqueueSnackbar('Failed', { variant: 'error' });
+    });
+
     setTimeout(() => {
-      setNextSongLoading(false);
-      setLoading(false);
+      setPaused(!paused)
+      setLoadingPlayPause(false);
+      setDisabled(false);
     }, 500);
   };
 
-  const handlePrevSong = () => {
-    setPrevSongLoading(true);
-    setLoading(true);
-    setTimeout(() => {
-      setPrevSongLoading(false);
-      setLoading(false);
-    }, 500);
-  };
 
   return (
     <Box
@@ -69,34 +70,33 @@ export default function MusicPlayerBar() {
         IC3PEAK - Смерти больше нет
       </Typography>
 
-      <IconButton disabled={loading}>
+      <IconButton
+        disabled={disabled}
+      >
         <Shuffle />
       </IconButton>
       <IconButton
-        disabled={loading}
-        loading={prevSongLoading}
-        onClick={handlePrevSong}
+        disabled={disabled}
       >
         <SkipPrevious />
       </IconButton>
       <IconButton
         size="lg"
         variant={'solid'}
-        onClick={() => setPaused(!paused)}
-        disabled={loading}
+        onClick={() => togglePlayPause()}
+        disabled={disabled}
+        loading={loadingPlayPause}
       >
         {paused ? <PlayArrow /> : <Pause />}
       </IconButton>
 
       <IconButton
-        disabled={loading}
-        loading={nextSongLoading}
-        onClick={handleNextSong}
+        disabled={disabled}
       >
         <SkipNext />
       </IconButton>
 
-      <IconButton disabled={loading}>
+      <IconButton disabled={disabled}>
         <Repeat />
         {/*<Repeat color={'success'} />*/}
         {/*<RepeatOneIcon color={'success'} />*/}
