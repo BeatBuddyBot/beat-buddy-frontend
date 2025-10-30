@@ -30,6 +30,10 @@ export default function MusicPlayerBar() {
     setLoadingRepeat(true);
     setDisabled(true);
 
+    ApiService.repeat().catch(() => {
+      enqueueSnackbar('Failed', { variant: 'error' });
+    });
+
     setTimeout(() => {
       const currentIndex = repeatOrder.indexOf(repeat);
       setRepeat(repeatOrder[(currentIndex + 1) % repeatOrder.length]);
