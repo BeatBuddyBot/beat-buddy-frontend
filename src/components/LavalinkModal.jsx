@@ -52,8 +52,10 @@ export default function LavalinkModal({ playlist_id, addSongToTable }) {
       })
       .then(function (data) {
         const transformedSongs = data.data.data
+          .filter((item) => !item.info.identifier.startsWith('U:'))
           .slice(0, 5)
           .map((song, index) => ({
+            key: song.info.title + index,
             label:
               song.info.title.length <= 60
                 ? song.info.title
@@ -122,6 +124,7 @@ export default function LavalinkModal({ playlist_id, addSongToTable }) {
 
           <Autocomplete
             options={options}
+            getOptionKey={(option) => option.key}
             onInputChange={handleChange}
             onChange={handleOnChange}
             style={{ width: 500 }}

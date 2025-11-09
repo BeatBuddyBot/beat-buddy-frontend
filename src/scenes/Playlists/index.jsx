@@ -36,28 +36,11 @@ const Playlists = () => {
       });
   };
 
-  const handleSkip = () => {
-    ApiService.skip().catch(() => {
-      enqueueSnackbar('Failed to skip', { variant: 'error' });
-    });
-  };
-
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="PLAYLISTS" subtitle="Build the perfect playlist" />
         <Box>
-          {/* TODO: DELETE LATER. TMP BUTTON FOR DEVELOPMENT*/}
-          <Button
-            variant="outlined"
-            color="neutral"
-            onClick={handleSkip}
-            sx={{ mr: '10px' }}
-          >
-            <SkipNextOutlinedIcon sx={{ mr: '10px' }} />
-            Skip
-          </Button>
-
           <Button
             variant="outlined"
             color="neutral"

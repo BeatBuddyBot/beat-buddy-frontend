@@ -9,7 +9,7 @@ import SongsTable from './SongsTable.jsx';
 import ApiService from '../services/ApiService.js';
 import LavalinkModal from './LavalinkModal.jsx';
 import { Box } from '@mui/material';
-import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useSnackbar } from 'notistack';
 
 export default function PlaylistViewModal({ playlist, setPlaylist }) {
@@ -127,7 +127,7 @@ export default function PlaylistViewModal({ playlist, setPlaylist }) {
             <Button
               variant="solid"
               color="success"
-              startDecorator={<PlaylistPlayOutlinedIcon />}
+              startDecorator={<PlayArrowIcon />}
               loading={playLoading}
               onClick={handleAddPlaylist}
             >
