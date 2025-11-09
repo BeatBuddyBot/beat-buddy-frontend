@@ -15,7 +15,7 @@ import { useSnackbar } from 'notistack';
 export default function MusicPlayerBar() {
   const { enqueueSnackbar } = useSnackbar();
 
-  const [repeat, setRepeat] = useState("disabled");
+  const [repeat, setRepeat] = useState('disabled');
   const [loadingRepeat, setLoadingRepeat] = useState(false);
 
   const repeatIcons = {
@@ -24,7 +24,7 @@ export default function MusicPlayerBar() {
     repeat_one: <RepeatOneIcon color={'success'} />,
   };
 
-  const repeatOrder = ["disabled", "repeat_all", "repeat_one"];
+  const repeatOrder = ['disabled', 'repeat_all', 'repeat_one'];
 
   const toggleRepeat = () => {
     setLoadingRepeat(true);
@@ -40,8 +40,22 @@ export default function MusicPlayerBar() {
       setLoadingRepeat(false);
       setDisabled(false);
     }, 500);
+  };
 
+  const [loadingSkip, setLoadingSkip] = useState(false);
 
+  const handleSkip = () => {
+    setLoadingSkip(true);
+    setDisabled(true);
+
+    ApiService.skip().catch(() => {
+      enqueueSnackbar('Failed to skip', { variant: 'error' });
+    });
+
+    setTimeout(() => {
+      setLoadingSkip(false);
+      setDisabled(false);
+    }, 500);
   };
 
   const [paused, setPaused] = useState(false);
@@ -58,12 +72,11 @@ export default function MusicPlayerBar() {
     });
 
     setTimeout(() => {
-      setPaused(!paused)
+      setPaused(!paused);
       setLoadingPlayPause(false);
       setDisabled(false);
     }, 500);
   };
-
 
   return (
     <Box
@@ -84,34 +97,9 @@ export default function MusicPlayerBar() {
         zIndex: 1299, // Under modals
       }}
     >
-      <Typography
-        level="body-sm"
-        sx={{
-          width: 300,
-          overflow: 'hidden',
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'vertical',
-          textAlign: 'right',
-          mr: 3,
-        }}
-      >
-        IC3PEAK - Смерти больше нет
-      </Typography>
-
-      <IconButton
-        disabled={disabled}
-      >
-        <Shuffle />
-      </IconButton>
-      <IconButton
-        disabled={disabled}
-      >
-        <SkipPrevious />
-      </IconButton>
       <IconButton
         size="lg"
-        variant={'solid'}
+        variant={'soft'}
         onClick={() => togglePlayPause()}
         disabled={disabled}
         loading={loadingPlayPause}
@@ -121,8 +109,14 @@ export default function MusicPlayerBar() {
 
       <IconButton
         disabled={disabled}
+        onClick={handleSkip}
+        loading={loadingSkip}
       >
         <SkipNext />
+      </IconButton>
+
+      <IconButton disabled={disabled}>
+        <Shuffle />
       </IconButton>
 
       <IconButton
@@ -143,6 +137,18 @@ export default function MusicPlayerBar() {
           3:14
         </Typography>
       </Box>
+      <Typography
+        level="body-sm"
+        sx={{
+          width: 300,
+          overflow: 'hidden',
+          display: '-webkit-box',
+          WebkitLineClamp: 1,
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        IC3PEAK - Смерти больше нет
+      </Typography>
     </Box>
   );
 }
