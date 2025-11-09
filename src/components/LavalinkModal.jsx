@@ -52,6 +52,7 @@ export default function LavalinkModal({ playlist_id, addSongToTable }) {
       })
       .then(function (data) {
         const transformedSongs = data.data.data
+          .filter(item => !item.info.identifier.startsWith("U:"))
           .slice(0, 5)
           .map((song, index) => ({
             label:
