@@ -59,10 +59,10 @@ class ApiService {
 
   // Player
   addSong(data) {
-    return this.post('/player/add/song/', data);
+    return this.post('/player/start/song/', data);
   }
   addPlaylist(data) {
-    return this.post('/player/add/playlist/', data);
+    return this.post('/player/start/playlist/', data);
   }
   stop() {
     return this.post('/player/stop/');
