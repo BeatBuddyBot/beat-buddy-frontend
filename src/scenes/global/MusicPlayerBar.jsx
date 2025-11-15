@@ -100,7 +100,7 @@ export default function MusicPlayerBar() {
       <IconButton
         size="lg"
         variant={'soft'}
-        onClick={() => togglePlayPause()}
+        onClick={togglePlayPause}
         disabled={disabled}
         loading={loadingPlayPause}
       >
@@ -121,7 +121,7 @@ export default function MusicPlayerBar() {
 
       <IconButton
         disabled={disabled}
-        onClick={() => toggleRepeat()}
+        onClick={toggleRepeat}
         variant={repeat !== 'disabled' ? 'soft' : 'plain'}
         loading={loadingRepeat}
       >

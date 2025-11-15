@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Topbar from './scenes/global/Topbar.jsx';
 import Sidebar from './scenes/global/Sidebar.jsx';
 import Playlists from './scenes/Playlists/index.jsx';
@@ -22,6 +22,8 @@ function App() {
           <main className="content">
             {/*<Topbar/>*/}
             <Routes>
+              {/* redirect from / to /playlists */}
+              <Route path="/" element={<Navigate to="/playlists" replace />} />
               <Route path="/playlists" element={<Playlists />} />
               <Route path="/stats" element={<Stats />} />
             </Routes>
