@@ -1,16 +1,18 @@
+import { Box } from '@mui/joy';
+import ProgressBar from './ProgressBar.jsx';
+import SongInfo from './SongInfo.jsx';
 import React, { useState } from 'react';
-import { Box, IconButton, Slider, Typography } from '@mui/joy';
+import { useSnackbar } from 'notistack';
+import ApiService from '../../../services/ApiService.js';
+import RepeatOneIcon from '@mui/icons-material/RepeatOne';
+import IconButton from '@mui/joy/IconButton';
 import {
   Pause,
   PlayArrow,
   Repeat,
   Shuffle,
   SkipNext,
-  SkipPrevious,
 } from '@mui/icons-material';
-import RepeatOneIcon from '@mui/icons-material/RepeatOne';
-import ApiService from '../../services/ApiService.js';
-import { useSnackbar } from 'notistack';
 
 export default function MusicPlayerBar() {
   const { enqueueSnackbar } = useSnackbar();
@@ -77,7 +79,6 @@ export default function MusicPlayerBar() {
       setDisabled(false);
     }, 500);
   };
-
   return (
     <Box
       sx={{
@@ -127,28 +128,8 @@ export default function MusicPlayerBar() {
       >
         {repeatIcons[repeat]}
       </IconButton>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', width: 300, ml: 3 }}>
-        <Typography level="body-sm" sx={{ width: 35 }}>
-          2:40
-        </Typography>
-        <Slider disabled value={82.5} sx={{ flex: 1, mx: 1 }} />
-        <Typography level="body-sm" sx={{ width: 35 }}>
-          3:14
-        </Typography>
-      </Box>
-      <Typography
-        level="body-sm"
-        sx={{
-          width: 300,
-          overflow: 'hidden',
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        IC3PEAK - Смерти больше нет
-      </Typography>
+      <ProgressBar />
+      <SongInfo />
     </Box>
   );
 }

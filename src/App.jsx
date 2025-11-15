@@ -10,7 +10,7 @@ import {
 import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { materialTheme } from './theme.js';
-import MusicPlayerBar from './scenes/global/MusicPlayerBar.jsx';
+import MusicPlayerBar from './scenes/global/MusicPlayerBar/MusicPlayerBar.jsx';
 
 function App() {
   return (
