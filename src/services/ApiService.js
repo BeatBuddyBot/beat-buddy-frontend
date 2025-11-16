@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 class ApiService {
-  constructor(baseURL) {
+  constructor(httpBaseURL, wsBaseURL) {
+    this.wsBaseURL = wsBaseURL;
+
     this.client = axios.create({
-      baseURL,
+      baseURL: httpBaseURL,
       headers: { 'Content-Type': 'application/json' },
     });
 
@@ -31,51 +33,57 @@ class ApiService {
 
   // Playlist
   getPlaylists() {
-    return this.get('/playlists/');
+    return this.get('/playlists');
   }
   getPlaylist(id) {
-    return this.get(`/playlists/${id}/`);
+    return this.get(`/playlists/${id}`);
   }
   createPlaylist(data) {
-    return this.post('/playlists/', data);
+    return this.post('/playlists', data);
   }
   patchPlaylist(id, data) {
-    return this.patch(`/playlists/${id}/`, data);
+    return this.patch(`/playlists/${id}`, data);
   }
   deletePlaylist(id) {
-    return this.delete(`/playlists/${id}/`);
+    return this.delete(`/playlists/${id}`);
   }
 
   // Song
   createSong(data) {
-    return this.post('/songs/', data);
+    return this.post('/songs', data);
   }
   patchSong(id, data) {
-    return this.patch(`/songs/${id}/`, data);
+    return this.patch(`/songs/${id}`, data);
   }
   deleteSong(id) {
-    return this.delete(`/songs/${id}/`);
+    return this.delete(`/songs/${id}`);
   }
 
   // Player
   addSong(data) {
-    return this.post('/player/start/song/', data);
+    return this.post('/player/start/song', data);
   }
   addPlaylist(data) {
-    return this.post('/player/start/playlist/', data);
+    return this.post('/player/start/playlist', data);
   }
   stop() {
-    return this.post('/player/stop/');
+    return this.post('/player/stop');
   }
   pause() {
-    return this.post('/player/pause/');
+    return this.post('/player/pause');
   }
   skip() {
-    return this.post('/player/skip/');
+    return this.post('/player/skip');
   }
   repeat() {
-    return this.post('/player/repeat/');
+    return this.post('/player/repeat');
+  }
+  subscribePlayerStatus() {
+    return new WebSocket(`${this.wsBaseURL}/player/status_stream`);
   }
 }
 
-export default new ApiService(import.meta.env.VITE_BASE_URL);
+export default new ApiService(
+  import.meta.env.VITE_HTTP_BASE_URL,
+  import.meta.env.VITE_WS_BASE_URL
+);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@mui/joy';
 
-const SongInfo = () => {
+const SongInfo = ({ playerStatus }) => {
   return (
     <Typography
       level="body-sm"
@@ -13,7 +13,7 @@ const SongInfo = () => {
         WebkitBoxOrient: 'vertical',
       }}
     >
-      IC3PEAK - Смерти больше нет
+      {playerStatus.player.current_song.title}
     </Typography>
   );
 };
