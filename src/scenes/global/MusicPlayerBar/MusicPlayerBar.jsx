@@ -1,11 +1,28 @@
-import { Box } from '@mui/joy';
-import React from 'react';
+import { Box, CircularProgress } from '@mui/joy';
+import React, { useEffect, useState } from 'react';
 
 import ProgressBar from './ProgressBar.jsx';
 import SongInfo from './SongInfo.jsx';
 import PlayerControls from './PlayerControls.jsx';
+import ApiService from '../../../services/ApiService.js';
 
 export default function MusicPlayerBar() {
+  const [loading, setLoading] = useState(true);
+  const [playerStatus, setPlayerStatus] = useState({});
+
+  useEffect(() => {
+    const ws = ApiService.subscribePlayerStatus();
+
+    ws.onmessage = (event) => {
+      setLoading(false);
+      setPlayerStatus(JSON.parse(event.data));
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   return (
     <Box
       sx={{
@@ -25,9 +42,16 @@ export default function MusicPlayerBar() {
         zIndex: 1299, // Under modals
       }}
     >
-      <PlayerControls />
-      <ProgressBar />
-      <SongInfo />
+
+      {loading ? (
+        <CircularProgress color="neutral" size="sm" />
+      ) : (
+        <>
+          <PlayerControls />
+          <ProgressBar playerStatus={playerStatus}/>
+          <SongInfo playerStatus={playerStatus} />
+        </>
+      )}
     </Box>
   );
 }
