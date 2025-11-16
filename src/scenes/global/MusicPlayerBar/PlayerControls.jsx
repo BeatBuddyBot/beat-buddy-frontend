@@ -12,23 +12,26 @@ import {
 
 import ApiService from '../../../services/ApiService.js';
 
+const getRepeatIcon = (mode) =>
+  ({
+    disabled: <Repeat />,
+    repeat_all: <Repeat color="success" />,
+    repeat_one: <RepeatOneIcon color="success" />,
+  })[mode];
+
 const PlayerControls = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [repeat, setRepeat] = useState('disabled');
+  const [paused, setPaused] = useState(false);
   const [loadingRepeat, setLoadingRepeat] = useState(false);
-
-  const repeatIcons = {
-    disabled: <Repeat />,
-    repeat_all: <Repeat color={'success'} />,
-    repeat_one: <RepeatOneIcon color={'success'} />,
-  };
-
+  const [loadingSkip, setLoadingSkip] = useState(false);
+  const [loadingPlayPause, setLoadingPlayPause] = useState(false);
+  const isDisabled = loadingPlayPause || loadingSkip || loadingRepeat;
   const repeatOrder = ['disabled', 'repeat_all', 'repeat_one'];
 
   const toggleRepeat = () => {
     setLoadingRepeat(true);
-    setDisabled(true);
 
     ApiService.repeat().catch(() => {
       enqueueSnackbar('Failed', { variant: 'error' });
@@ -38,15 +41,11 @@ const PlayerControls = () => {
       const currentIndex = repeatOrder.indexOf(repeat);
       setRepeat(repeatOrder[(currentIndex + 1) % repeatOrder.length]);
       setLoadingRepeat(false);
-      setDisabled(false);
     }, 500);
   };
 
-  const [loadingSkip, setLoadingSkip] = useState(false);
-
   const handleSkip = () => {
     setLoadingSkip(true);
-    setDisabled(true);
 
     ApiService.skip().catch(() => {
       enqueueSnackbar('Failed to skip', { variant: 'error' });
@@ -54,18 +53,11 @@ const PlayerControls = () => {
 
     setTimeout(() => {
       setLoadingSkip(false);
-      setDisabled(false);
     }, 500);
   };
 
-  const [paused, setPaused] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-
-  const [loadingPlayPause, setLoadingPlayPause] = useState(false);
-
   const togglePlayPause = () => {
     setLoadingPlayPause(true);
-    setDisabled(true);
 
     ApiService.pause().catch(() => {
       enqueueSnackbar('Failed', { variant: 'error' });
@@ -74,7 +66,6 @@ const PlayerControls = () => {
     setTimeout(() => {
       setPaused(!paused);
       setLoadingPlayPause(false);
-      setDisabled(false);
     }, 500);
   };
   return (
@@ -83,31 +74,31 @@ const PlayerControls = () => {
         size="lg"
         variant={'soft'}
         onClick={togglePlayPause}
-        disabled={disabled}
+        disabled={isDisabled}
         loading={loadingPlayPause}
       >
         {paused ? <PlayArrow /> : <Pause />}
       </IconButton>
 
       <IconButton
-        disabled={disabled}
+        disabled={isDisabled}
         onClick={handleSkip}
         loading={loadingSkip}
       >
         <SkipNext />
       </IconButton>
 
-      <IconButton disabled={disabled}>
+      <IconButton disabled={isDisabled}>
         <Shuffle />
       </IconButton>
 
       <IconButton
-        disabled={disabled}
+        disabled={isDisabled}
         onClick={toggleRepeat}
         variant={repeat !== 'disabled' ? 'soft' : 'plain'}
         loading={loadingRepeat}
       >
-        {repeatIcons[repeat]}
+        {getRepeatIcon(repeat)}
       </IconButton>
     </>
   );
