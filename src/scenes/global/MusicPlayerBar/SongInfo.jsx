@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@mui/joy';
 
-const SongInfo = ({playerStatus}) => {
+const SongInfo = ({ playerStatus }) => {
   return (
     <Typography
       level="body-sm"

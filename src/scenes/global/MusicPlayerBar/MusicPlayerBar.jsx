@@ -42,13 +42,12 @@ export default function MusicPlayerBar() {
         zIndex: 1299, // Under modals
       }}
     >
-
       {loading ? (
         <CircularProgress color="neutral" size="sm" />
       ) : (
         <>
           <PlayerControls />
-          <ProgressBar playerStatus={playerStatus}/>
+          <ProgressBar playerStatus={playerStatus} />
           <SongInfo playerStatus={playerStatus} />
         </>
       )}
